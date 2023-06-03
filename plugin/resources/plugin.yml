@@ -1,0 +1,12 @@
+name: ${project.name}
+main: com.poixson.redterm.RedTermPlugin
+version: ${project.version}
+api-version: ${spigot-short-version}
+depend:
+  - pxnCommonPluginMC
+softdepend:
+  - Multiverse-Core
+authors: [ lorenzop ]
+website: ${project.url}
+description: ${project.description}
+permission-message: "You don't have permission to use this command."
