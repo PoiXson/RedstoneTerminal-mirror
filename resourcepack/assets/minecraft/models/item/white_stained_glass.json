@@ -6,6 +6,12 @@
 	"overrides": [
 		{
 			"predicate": {
+				"custom_model_data": 11
+			},
+			"model": "item/outlet"
+		},
+		{
+			"predicate": {
 				"custom_model_data": 104
 			},
 			"model": "item/computer_keyboard"
@@ -21,6 +27,12 @@
 				"custom_model_data": 1897
 			},
 			"model": "item/computer_monitor"
+		},
+		{
+			"predicate": {
+				"custom_model_data": 1988
+			},
+			"model": "item/keypad"
 		}
 	]
 }
