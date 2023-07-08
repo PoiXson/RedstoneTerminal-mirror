@@ -53,7 +53,7 @@
 			"faces": {
 				"north": {"uv": [0, 0, 16, 16], "texture": "#3"},
 				"east": {"uv": [16, 0, 0, 16], "texture": "#1"},
-				"south": {"uv": [0, 0, 12, 11], "texture": "#missing"},
+				"south": {"uv": [0, 0, 16, 1.56364], "texture": "#0"},
 				"west": {"uv": [16, 0, 0, 16], "texture": "#1"},
 				"up": {"uv": [16, 16, 0, 0], "texture": "#2"},
 				"down": {"uv": [14.86364, 0, 16, 16], "rotation": 90, "texture": "#0"}
