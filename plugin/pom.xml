@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Wed Jul 12 03:57:52 PM EDT 2023 -->
+<!-- Generated: Fri Jul 14 09:26:15 AM EDT 2023 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -80,6 +80,8 @@
 					<include>img/monitor/computer_wallpaper_512.png</include>
 					<include>img/monitor/computer_cursor.png</include>
 					<include>img/monitor/computer_cursor_mask.png</include>
+					<include>img/monitor/computer_hourglass.png</include>
+					<include>img/monitor/computer_hourglass_mask.png</include>
 				</includes>
 			</resource>
 		</resources>
