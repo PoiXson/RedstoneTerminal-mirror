@@ -10,3 +10,19 @@ authors: [ lorenzop ]
 website: ${project.url}
 description: ${project.description}
 permission-message: "You don't have permission to use this command."
+commands:
+    redterm:
+        description: "Redstone Terminal commands"
+        usage: "Usage: /redterm <cmd>"
+    scripts:
+        description: "List the scripts currently running"
+        usage: "Usage: /scripts"
+    load:
+        description: "Load a script to a computer"
+        usage: "Usage: /load <script>"
+    off:
+        description: "Turn off the computer"
+        usage: "Usage: /off"
+    reboot:
+        description: "Reboot the computer"
+        usage: "Usage: /reboot"
