@@ -17,9 +17,8 @@ import com.poixson.redterm.listeners.ComponentListeners;
 
 
 public class RedTermPlugin extends xJavaPlugin {
-//TODO
-	@Override public int getSpigotPluginID() { return 0; }
-	@Override public int getBStatsID() {       return 0;  }
+	@Override public int getSpigotPluginID() { return 111236; }
+	@Override public int getBStatsID() {       return 19096;  }
 	public static final String LOG_PREFIX  = "[RedTerm] ";
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 
