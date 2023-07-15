@@ -26,3 +26,135 @@ commands:
     reboot:
         description: "Reboot the computer"
         usage: "Usage: /reboot"
+permissions:
+    redterm.*:
+        default: false
+        description: Gives access to all Redstone Terminal commands.
+        children:
+            redterm.give.*:     true
+            redterm.place.*:    true
+            redterm.destroy.*:  true
+            redterm.interact.*: true
+            redterm.list.*:     true
+            redterm.load:       true
+            redterm.off:        true
+            redterm.reboot:     true
+
+    redterm.give.*:
+        default: false
+        description: Give a computer component to the player.
+        children:
+            redterm.give.altair:   true
+            redterm.give.monitor:  true
+            redterm.give.keyboard: true
+            redterm.give.keypad:   true
+            redterm.give.outlet:   true
+    redterm.give.altair:
+        default: op
+        description: Give an altair to the player.
+    redterm.give.monitor:
+        default: op
+        description: Give a crt monitor to the player.
+    redterm.give.keyboard:
+        default: op
+        description: Give a keyboard to the player.
+    redterm.give.keypad:
+        default: op
+        description: Give a security keypad to the player.
+    redterm.give.outlet:
+        default: op
+        description: Give a power outlet to the player.
+
+    redterm.place.*:
+        default: false
+        description: Place a computer component.
+        children:
+            redterm.place.altair:   true
+            redterm.place.monitor:  true
+            redterm.place.keyboard: true
+            redterm.place.keypad:   true
+            redterm.place.outlet:   true
+    redterm.place.altair:
+        default: op
+        description: Place an altair computer.
+    redterm.place.monitor:
+        default: op
+        description: Place a crt monitor.
+    redterm.place.keyboard:
+        default: op
+        description: Place a keyboard.
+    redterm.place.keypad:
+        default: op
+        description: Place a security keypad.
+    redterm.place.outlet:
+        default: op
+        description: Place a power outlet.
+
+    redterm.destroy.*:
+        default: false
+        description: Remove a computer component.
+        children:
+            redterm.destroy.altair:   true
+            redterm.destroy.monitor:  true
+            redterm.destroy.keyboard: true
+            redterm.destroy.keypad:   true
+            redterm.destroy.outlet:   true
+    redterm.destroy.altair:
+        default: op
+        description: Remove an altair computer.
+    redterm.destroy.monitor:
+        default: op
+        description: Remove a crt monitor.
+    redterm.destroy.keyboard:
+        default: op
+        description: Remove a keyboard.
+    redterm.destroy.keypad:
+        default: op
+        description: Remove a security keypad.
+    redterm.destroy.outlet:
+        default: op
+        description: Remove a power outlet.
+
+    redterm.interact.*:
+        default: false
+        description: Interact with computer components.
+        children:
+            redterm.interact.altair:   true
+            redterm.interact.monitor:  true
+            redterm.interact.keyboard: true
+            redterm.interact.keypad:   true
+            redterm.interact.outlet:   true
+    redterm.interact.altair:
+        default: true
+        description: Interact with an altair computer.
+    redterm.interact.monitor:
+        default: true
+        description: Interact with a crt monitor.
+    redterm.interact.keyboard:
+        default: true
+        description: Interact with a keyboard.
+    redterm.interact.keypad:
+        default: true
+        description: Interact with a security keypad.
+    redterm.interact.outlet:
+        default: true
+        description: Interact with a power outlet.
+
+    redterm.list.*:
+        default: false
+        description: Use list commands.
+        children:
+            redterm.list.scripts:   true
+    redterm.list.scripts:
+        default: op
+        description: List the running scripts.
+
+    redterm.load:
+        default: op
+        description: Load a script to a computer.
+    redterm.off:
+        default: op
+        description: Turn off a computer.
+    redterm.reboot:
+        default: op
+        description: Reboot a computer.
