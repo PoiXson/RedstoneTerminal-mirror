@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Fri Jul 14 09:26:15 AM EDT 2023 -->
+<!-- Generated: Sat Jul 15 03:11:15 AM EDT 2023 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -64,6 +64,10 @@
 				<includes>
 					<include>plugin.yml</include>
 					<include>app.properties</include>
+					<include>scripts/prepend.js</include>
+					<include>scripts/default.js</include>
+					<include>scripts/minux.js</include>
+					<include>scripts/life.js</include>
 				</includes>
 			</resource>
 			<resource>
