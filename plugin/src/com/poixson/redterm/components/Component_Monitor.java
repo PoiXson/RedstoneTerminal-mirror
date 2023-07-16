@@ -56,6 +56,19 @@ public class Component_Monitor extends Component implements PixelSource {
 		final Location loc_screen = this.location.clone()
 				.add(this.direction.getDirection());
 		final int fps;
+		// script
+		{
+			final String path_plugin = plugin.getDataFolder().getPath();
+			final String path_local  = path_plugin + "/scripts";
+			final String path_res    = "scripts";
+			final ScriptLoader loader = new ScriptLoader_File(plugin, path_local, path_res, filename);
+			this.script = new CraftScript(loader, false);
+			this.script.setVariable("plugin", plugin);
+			this.out = new PrintStream(new LocalOut(loc));
+			this.script.setVariable("out", this.out);
+			this.script.getSources();
+			fps = this.script.getFPS();
+		}
 		// screen
 		{
 			// get map id
@@ -75,21 +88,13 @@ public class Component_Monitor extends Component implements PixelSource {
 			this.loadDefaultImages();
 			this.screen.start(fps);
 		}
-		// script
+		// start script
 		{
-			final String path_plugin = plugin.getDataFolder().getPath();
-			final String path_local  = path_plugin + "/scripts";
-			final String path_res    = "scripts";
-			final ScriptLoader loader = new ScriptLoader_File(plugin, path_local, path_res, filename);
-			this.script = new CraftScript(loader, false);
-			this.script.setVariable("plugin", plugin);
 			final Iabcd size = this.screen.findScreenSize();
 			this.script.setVariable("screen_offset_x", Integer.valueOf(size.a));
 			this.script.setVariable("screen_offset_y", Integer.valueOf(size.b));
 			this.script.setVariable("screen_width",    Integer.valueOf(size.c));
 			this.script.setVariable("screen_height",   Integer.valueOf(size.d));
-			this.out = new PrintStream(new LocalOut(loc));
-			this.script.setVariable("out", this.out);
 			try {
 				this.script.run();
 			} catch (Exception e) {
