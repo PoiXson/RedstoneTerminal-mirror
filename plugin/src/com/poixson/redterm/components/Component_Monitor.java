@@ -38,7 +38,6 @@ public class Component_Monitor extends Component implements PixelSource {
 
 	protected final int map_id;
 	protected final int map_size;
-	protected final int map_fps;
 
 	protected final MapScreen screen;
 	protected final CraftScript script;
@@ -56,6 +55,7 @@ public class Component_Monitor extends Component implements PixelSource {
 		super(plugin, loc, facing);
 		final Location loc_screen = this.location.clone()
 				.add(this.direction.getDirection());
+		final int fps;
 		// screen
 		{
 			// get map id
@@ -63,7 +63,6 @@ public class Component_Monitor extends Component implements PixelSource {
 			if (mapstore == null) throw new RuntimeException("FreedMapStore is not available");
 			this.map_id = mapstore.get();
 			this.map_size = 128;
-			this.map_fps  = 20;
 			this.screen =
 				new MapScreen(
 					plugin,
@@ -71,11 +70,10 @@ public class Component_Monitor extends Component implements PixelSource {
 					loc_screen,
 					facing,
 					this.map_size,
-					this.map_fps,
 					this
 				);
 			this.loadDefaultImages();
-			this.screen.start();
+			this.screen.start(fps);
 		}
 		// script
 		{
