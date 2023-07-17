@@ -23,16 +23,16 @@ function println() {
 }
 function print(line) {
 	if (isNullOrEmpty(line)) {
-		printnl();
+		println();
 	} else {
 		out.println(line);
 	}
 }
 function error(line) {
 	if (isNullOrEmpty(line)) {
-		printnl();
+		println();
 	} else {
-		out.printnl("ERROR: " + line);
+		out.println("ERROR: " + line);
 	}
 }
 
