@@ -32,7 +32,7 @@ function seed() {
 function onRender() {
 	for (iy=0; iy<screen_height; iy++) {
 		for (ix=0; ix<screen_width; ix++) {
-			pixels[iy+screen_offset_y][ix+screen_offset_x] = (grid[iy][ix] ? Color.WHITE : Color.BLACK);
+			pixels[iy][ix] = (grid[iy][ix] ? Color.WHITE : Color.BLACK);
 		}
 	}
 	extinct++;
