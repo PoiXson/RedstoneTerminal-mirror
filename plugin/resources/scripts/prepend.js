@@ -3,8 +3,13 @@ importClass(Packages.java.io.File);
 importClass(Packages.java.nio.file.Files);
 importClass(Packages.java.nio.file.FileSystems);
 
+importClass(Packages.java.awt.Color);
+importClass(Packages.java.awt.Font);
+importClass(Packages.java.awt.image.BufferedImage);
+
 importClass(Packages.com.poixson.utils.FileUtils);
 importClass(Packages.com.poixson.utils.GraphicsUtils);
+importClass(Packages.com.poixson.commonmc.utils.MapUtils);
 
 
 
@@ -123,4 +128,32 @@ function LoadImage(filename) {
 	return GraphicsUtils.LoadImage(
 		FileUtils.OpenResource(plugin.getClass(), "img/" + filename)
 	)
+}
+
+
+
+// --------------------------------------------------
+
+
+
+function GetTextWidth(text, size) {
+	return Math.ceil(0.6 * text.length * size);
+}
+
+function DrawText(text, x, y, font, style, size, color, back_color) {
+	if (isNullOrEmpty(font )) font = "Noto Sans Mono";
+	if (isNullOrEmpty(style)) style = Font.PLAIN;
+	if (isNullOrEmpty(size )) size = 8;
+	if (isNullOrEmpty(color)) color = Color.WHITE;
+	else                      color = new Color(color);
+	let w = GetTextWidth(text, size);
+	let h = size;
+	let img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+	let graphics = img.createGraphics();
+	graphics.setFont(new Font(font, style, size));
+	graphics.setColor(color);
+	graphics.setBackground(isNullOrEmpty(back_color) ? Color.BLACK : new Color(back_color));
+	graphics.drawString(text, 0, size);
+	MapUtils.DrawImagePixels(pixels, x, y, img, isNullOrEmpty(back_color) ? Color.BLACK.getRGB() : null);
+	graphics.dispose();
 }
