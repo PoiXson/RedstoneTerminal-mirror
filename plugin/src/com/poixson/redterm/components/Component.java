@@ -107,7 +107,8 @@ public abstract class Component implements Closeable {
 			if (meta.hasCustomModelData()) {
 				final int model = meta.getCustomModelData();
 				switch (model) {
-				case 1897: { // monitor
+				case 1897:   // monitor
+				case 1972: { // arcade - pong
 					final BlockFace facing = RotationToFace(frame.getRotation()).getOppositeFace();
 					return new Component_Screen(plugin, loc, facing, filename);
 				}
@@ -139,6 +140,7 @@ public abstract class Component implements Closeable {
 							switch (model) {
 							case 1897: return true; // monitor
 							case 880:  return true; // altair
+							case 1972: return true; // arcade - pong
 							default: break MODEL_SWITCH;
 							}
 							break MATERIAL_SWITCH;

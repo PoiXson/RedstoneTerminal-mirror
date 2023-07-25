@@ -63,6 +63,8 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 			case 1988: if (player.hasPermission("redterm.place.keypad"  )) has_perm = true; break PERMISSION_SWITCH;
 			// outlet
 			case 11:   if (player.hasPermission("redterm.place.outlet"  )) has_perm = true; break PERMISSION_SWITCH;
+			// arcade - pong
+			case 1972: if (player.hasPermission("redterm.place.arcade"  )) has_perm = true; break PERMISSION_SWITCH;
 			default: return;
 			}
 			if (!has_perm) {
@@ -110,6 +112,11 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 			// outlet
 			case 11: {
 				PlaceComputerEntity(loc_block, item, facing, false, true);
+				break MODEL_SWITCH;
+			}
+			// arcade - pong
+			case 1972: {
+				PlaceComputerEntity(loc_block, item, facing, true, false);
 				break MODEL_SWITCH;
 			}
 			default: break MODEL_SWITCH;

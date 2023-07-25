@@ -49,6 +49,7 @@ permissions:
             redterm.give.keyboard: true
             redterm.give.keypad:   true
             redterm.give.outlet:   true
+            redterm.give.arcade:   true
     redterm.give.altair:
         default: op
         description: Give an altair to the player.
@@ -64,6 +65,9 @@ permissions:
     redterm.give.outlet:
         default: op
         description: Give a power outlet to the player.
+    redterm.give.arcade:
+        default: op
+        description: Give an arcade to the player.
 
     redterm.place.*:
         default: false
@@ -74,6 +78,7 @@ permissions:
             redterm.place.keyboard: true
             redterm.place.keypad:   true
             redterm.place.outlet:   true
+            redterm.place.arcade:   true
     redterm.place.altair:
         default: op
         description: Place an altair computer.
@@ -89,6 +94,9 @@ permissions:
     redterm.place.outlet:
         default: op
         description: Place a power outlet.
+    redterm.place.arcade:
+        default: op
+        description: Place an arcade.
 
     redterm.destroy.*:
         default: false
@@ -99,6 +107,7 @@ permissions:
             redterm.destroy.keyboard: true
             redterm.destroy.keypad:   true
             redterm.destroy.outlet:   true
+            redterm.destroy.arcade:   true
     redterm.destroy.altair:
         default: op
         description: Remove an altair computer.
@@ -114,6 +123,9 @@ permissions:
     redterm.destroy.outlet:
         default: op
         description: Remove a power outlet.
+    redterm.destroy.arcade:
+        default: op
+        description: Remove an arcade.
 
     redterm.interact.*:
         default: false
@@ -124,6 +136,7 @@ permissions:
             redterm.interact.keyboard: true
             redterm.interact.keypad:   true
             redterm.interact.outlet:   true
+            redterm.interact.arcade:   true
     redterm.interact.altair:
         default: true
         description: Interact with an altair computer.
@@ -139,6 +152,9 @@ permissions:
     redterm.interact.outlet:
         default: true
         description: Interact with a power outlet.
+    redterm.interact.arcade:
+        default: true
+        description: Interact with an arcade.
 
     redterm.list.*:
         default: false
