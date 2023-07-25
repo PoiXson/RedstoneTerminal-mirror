@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated: Sat Jul 15 03:11:15 AM EDT 2023 -->
+<!-- Generated: Mon Jul 24 10:39:25 PM EDT 2023 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -79,6 +79,7 @@
 					<include>img/monitor/computer_monitor_screen_mask_128.png</include>
 					<include>img/monitor/computer_monitor_screen_mask_256.png</include>
 					<include>img/monitor/computer_monitor_screen_mask_512.png</include>
+					<include>img/monitor/computer_wallpaper_86-67.png</include>
 					<include>img/monitor/computer_wallpaper_128.png</include>
 					<include>img/monitor/computer_wallpaper_256.png</include>
 					<include>img/monitor/computer_wallpaper_512.png</include>
