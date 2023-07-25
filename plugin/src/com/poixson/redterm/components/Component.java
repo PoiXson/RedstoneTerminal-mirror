@@ -42,13 +42,9 @@ public abstract class Component implements Closeable {
 
 
 	@Override
-	public void close() {
-	}
+	public abstract void close();
 
-
-
-	public void click(final Player player, final int x, final int y) {
-	}
+	public abstract void click(final Player player, final int x, final int y);
 
 
 
@@ -100,6 +96,7 @@ public abstract class Component implements Closeable {
 			if (component != null)
 				return null;
 		}
+		// activate component
 		final World world = loc.getWorld();
 		final Predicate<Entity> filter = GetEntityFilter();
 		ENTITY_LOOP:
@@ -110,10 +107,9 @@ public abstract class Component implements Closeable {
 			if (meta.hasCustomModelData()) {
 				final int model = meta.getCustomModelData();
 				switch (model) {
-				// monitor
-				case 1897: {
+				case 1897: { // monitor
 					final BlockFace facing = RotationToFace(frame.getRotation()).getOppositeFace();
-					return new Component_Monitor(plugin, loc, facing, filename);
+					return new Component_Screen(plugin, loc, facing, filename);
 				}
 				default: break ENTITY_LOOP;
 				}

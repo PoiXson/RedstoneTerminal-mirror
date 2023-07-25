@@ -1,5 +1,7 @@
 package com.poixson.redterm;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -74,6 +76,18 @@ public class RedTermPlugin extends xJavaPlugin {
 			if (listener != null)
 				listener.unregister();
 		}
+		// components
+		{
+			final LinkedList<Component> removing = new LinkedList<Component>();
+			final Iterator<Component> it = this.components.iterator();
+			while (it.hasNext()) {
+				final Component comp = it.next();
+				comp.close();
+				removing.add(comp);
+			}
+			for (final Component comp : removing)
+				this.components.remove(comp);
+		}
 	}
 
 
@@ -83,15 +97,18 @@ public class RedTermPlugin extends xJavaPlugin {
 
 
 	public void register(final Component component) {
+		if (component == null) throw new NullPointerException();
 		this.components.add(component);
 	}
 	public boolean unregister(final Component component) {
+		if (component == null) throw new NullPointerException();
 		return this.components.remove(component);
 	}
 
 
 
 	public Component getComponent(final Location loc) {
+		if (loc == null) throw new NullPointerException();
 		for (final Component component : this.components) {
 			if (component.isLocation(loc))
 				return component;
@@ -99,6 +116,7 @@ public class RedTermPlugin extends xJavaPlugin {
 		return null;
 	}
 	public Component getComponent(final Entity entity) {
+		if (entity == null) throw new NullPointerException();
 		final Location loc = entity.getLocation();
 		for (final Component component : this.components) {
 			if (component.isLocation(loc))
@@ -107,6 +125,7 @@ public class RedTermPlugin extends xJavaPlugin {
 		return null;
 	}
 	public Component getComponent(final Player player) {
+		if (player == null) throw new NullPointerException();
 		// looking at block
 		{
 			final RayTraceResult ray = player.rayTraceBlocks(10.0);

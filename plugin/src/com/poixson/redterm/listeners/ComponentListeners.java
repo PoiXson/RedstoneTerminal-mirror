@@ -27,7 +27,7 @@ import org.bukkit.util.Vector;
 import com.poixson.commonmc.tools.plugin.xListener;
 import com.poixson.redterm.RedTermPlugin;
 import com.poixson.redterm.components.Component;
-import com.poixson.redterm.components.Component_Monitor;
+import com.poixson.redterm.components.Component_Screen;
 
 
 public class ComponentListeners extends xListener<RedTermPlugin> {
@@ -131,7 +131,7 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 			if (component != null) {
 				final Player player = event.getPlayer();
 				// crt monitor
-				if (component instanceof Component_Monitor) {
+				if (component instanceof Component_Screen) {
 					if (!player.hasPermission("redterm.destroy.monitor")) {
 						player.sendMessage(CHAT_PREFIX + "You don't have permission to break this.");
 						event.setCancelled(true);
@@ -170,7 +170,7 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 					final Component component = this.plugin.getComponent(entity);
 					if (component != null) {
 						// crt monitor
-						if (component instanceof Component_Monitor) {
+						if (component instanceof Component_Screen) {
 							if (!player.hasPermission("redterm.interact.monitor")) {
 								player.sendMessage(CHAT_PREFIX + "You don't have permission to use this.");
 								event.setCancelled(true);

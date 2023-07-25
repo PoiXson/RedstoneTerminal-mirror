@@ -1,105 +1,122 @@
 package com.poixson.redterm.components;
 
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG_PREFIX;
 import static com.poixson.commonmc.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.utils.GraphicsUtils.LoadImage;
 
 import java.awt.Color;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Map;
+import java.util.concurrent.LinkedTransferQueue;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
-import org.bukkit.util.RayTraceResult;
-import org.bukkit.util.Vector;
 
 import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.commonmc.tools.mapstore.FreedMapStore;
-import com.poixson.commonmc.tools.scripts.CraftScript;
-import com.poixson.commonmc.tools.scripts.LocalOut;
-import com.poixson.commonmc.tools.scripts.loader.ScriptLoader;
-import com.poixson.commonmc.tools.scripts.loader.ScriptLoader_File;
-import com.poixson.commonmc.tools.scripts.screen.MapScreen;
-import com.poixson.commonmc.tools.scripts.screen.PixelSource;
+import com.poixson.commonmc.tools.scripting.LocalOut;
+import com.poixson.commonmc.tools.scripting.engine.CraftScriptManager;
+import com.poixson.commonmc.tools.scripting.loader.ScriptLoader;
+import com.poixson.commonmc.tools.scripting.loader.ScriptLoader_File;
+import com.poixson.commonmc.tools.scripting.screen.MapScreen;
+import com.poixson.commonmc.tools.scripting.screen.PixelSource;
 import com.poixson.redterm.RedTermPlugin;
-import com.poixson.redterm.components.actions.MonitorAction;
-import com.poixson.redterm.components.actions.MonitorAction_Click;
-import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.utils.FileUtils;
 
 
-public class Component_Monitor extends Component implements PixelSource {
-
-	protected final int map_id;
-	protected final int map_size;
+public class Component_Screen extends Component implements PixelSource {
+//	public static final int DEFAULT_FPS = 1;
 
 	protected final MapScreen screen;
-	protected final CraftScript script;
+	protected final CraftScriptManager script;
 
 	protected final PrintStream out;
-	protected final LinkedList<MonitorAction> actions = new LinkedList<MonitorAction>();
 
-	protected final AtomicBoolean stopping = new AtomicBoolean(false);
-
+	protected final int map_size = 128;
 
 
-	public Component_Monitor(final RedTermPlugin plugin,
+
+	public Component_Screen(final RedTermPlugin plugin,
 			final Location loc, final BlockFace facing,
 			final String filename) {
 		super(plugin, loc, facing);
 		final Location loc_screen = this.location.clone()
 				.add(this.direction.getDirection());
-		final int fps;
-		// script
+		// load script
 		{
 			final String path_plugin = plugin.getDataFolder().getPath();
 			final String path_local  = path_plugin + "/scripts";
 			final String path_res    = "scripts";
 			final ScriptLoader loader = new ScriptLoader_File(plugin, path_local, path_res, filename);
-			this.script = new CraftScript(loader, false);
-			this.script.setVariable("plugin", plugin);
+			try {
+				loader.getSources();
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException(e);
+			}
 			this.out = new PrintStream(new LocalOut(loc));
-			this.script.setVariable("out", this.out);
-			this.script.getSources();
-			fps = this.script.getFPS();
+			this.script = (new CraftScriptManager())
+				.setLoader(loader)
+				.setSafeScope(false)
+				.setThreaded(true)
+				.setVariable("out", this.out)
+				.setVariable("plugin", plugin);
+			try {
+				this.script.getSources();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
 		}
-		// screen
+		// map screen
 		{
 			// get map id
 			final FreedMapStore mapstore = pxnCommonPlugin.GetFreedMapStore();
 			if (mapstore == null) throw new RuntimeException("FreedMapStore is not available");
-			this.map_id = mapstore.get();
-			this.map_size = 128;
+			final int map_id = mapstore.get();
+			// map screen
 			this.screen =
-				new MapScreen(
+				(new MapScreen(
 					plugin,
-					this.map_id,
 					loc_screen,
 					facing,
-					this.map_size,
-					this
-				);
+					map_id,
+					this.map_size
+				))
+				.setTickListener(new Runnable() {
+					@Override
+					public void run() {
+						Component_Screen.this.script.tick();
+					}
+				})
+				.setPixelSource(new PixelSource() {
+					@Override
+					public Color[][] getPixels(final Player player) {
+						return Component_Screen.this.getPixels(player);
+					}
+				});
 			this.loadDefaultImages();
-			this.screen.start(fps);
+//TODO
+//			this.screen.setFPS( this.script.getFPS() );
+			this.screen.setFPS(20);
+			this.screen.start();
 		}
 		// start script
 		{
-			final Iabcd size = this.screen.findScreenSize();
-			this.script.setVariable("screen_offset_x", Integer.valueOf(size.a));
-			this.script.setVariable("screen_offset_y", Integer.valueOf(size.b));
-			this.script.setVariable("screen_width",    Integer.valueOf(size.c));
-			this.script.setVariable("screen_height",   Integer.valueOf(size.d));
-			try {
-				this.script.run();
-			} catch (Exception e) {
-				e.printStackTrace();
+			final Iabcd screen_size = this.screen.getScreenSize();
+			this.script.setVariable("screen_width",  Integer.valueOf(screen_size.c));
+			this.script.setVariable("screen_height", Integer.valueOf(screen_size.d));
+			final int[][] pixels = new int[screen_size.d][screen_size.c];
+			final int color_black = Color.BLACK.getRGB();
+			for (int iy=0; iy<screen_size.d; iy++) {
+				for (int ix=0; ix<screen_size.c; ix++)
+					pixels[iy][ix] = color_black;
 			}
+			this.script.setVariable("pixels", pixels);
+			final Map<String, String> cursors = new HashMap<String, String>();
+			this.script.setVariable("cursors", cursors);
+			this.script.start();
 		}
 		plugin.register(this);
 	}
@@ -108,63 +125,53 @@ public class Component_Monitor extends Component implements PixelSource {
 
 	@Override
 	public void close() {
-		super.close();
-		this.script.close();
 		this.plugin.unregister(this);
-		this.stopping.set(true);
-		this.screen.close();
+		this.script.stop();
+		this.screen.stop();
 		// free the map id
 		{
 			final FreedMapStore mapstore = pxnCommonPlugin.GetFreedMapStore();
 			if (mapstore == null) throw new RuntimeException("FreedMapStore is not available");
-			mapstore.release(this.map_id);
+			mapstore.release(this.screen.getMapID());
 		}
 	}
 
 
 
 	@Override
-	public Color[][] getPixels() {
-		final Color[][] pixels = new Color[this.map_size][this.map_size];
-		final HashMap<Player, Iab> cursors = new HashMap<Player, Iab>();
-		for (final Player player : Bukkit.getOnlinePlayers()) {
-			final RayTraceResult ray = player.rayTraceBlocks(MapScreen.DEFAULT_MAX_DISTANCE);
-			if (ray != null) {
-				if (EqualsLocation(ray.getHitBlock().getLocation(), this.location)) {
-					final Vector vec = ray.getHitPosition();
-					final int x = 127 - Math.abs( (int) (((vec.getX() + vec.getZ())%1.0) * 128.0) );
-					final int y = 127 - Math.abs( (int) ( (vec.getY()              %1.0) * 128.0) );
-					cursors.put(player, new Iab(x, y));
-				}
+	public Color[][] getPixels(final Player player) {
+		final Object obj = this.script.getVariable("pixels");
+		if (obj == null) return null;
+		@SuppressWarnings("unchecked")
+		final LinkedTransferQueue<LinkedTransferQueue<Integer>> list =
+				(LinkedTransferQueue<LinkedTransferQueue<Integer>>) obj;
+		Color[][] pixels = null;
+		int ix = 0;
+		int iy = 0;
+		for (final LinkedTransferQueue<Integer> lst : list) {
+			if (pixels == null)
+				pixels = new Color[list.size()][lst.size()];
+			for (final Integer entry : lst) {
+				pixels[iy][ix] = new Color(entry.intValue());
+				ix++;
 			}
-		}
-		final MonitorAction[] actions = this.actions.toArray(new MonitorAction[0]);
-		this.actions.clear();
-		try {
-			this.script.setVariable("pixels",  pixels );
-			this.script.setVariable("cursors", cursors);
-			this.script.setVariable("actions", actions);
-			this.script.call("onRender");
-		} catch (Exception e) {
-			e.printStackTrace();
+			ix = 0;
+			iy++;
 		}
 		return pixels;
 	}
 
 
 
-	@Override
-	public void click(final Player player, final int x, final int y) {
-		if (this.stopping.get()) return;
-		final MonitorAction action = new MonitorAction_Click(player, x+42, y+26);
-		this.actions.addLast(action);
+	public void loadDefaultImages() {
+		this.screen.setScreenMask( LoadImage(FileUtils.OpenResource(this.plugin.getClass(), "img/monitor/computer_monitor_screen_mask_128.png")) );
 	}
 
 
 
-	public void loadDefaultImages() {
-		this.screen.img_screen_mask.set(LoadImage(FileUtils.OpenResource(this.plugin.getClass(), "img/monitor/computer_monitor_screen_mask_128.png")));
-		if (this.screen.img_screen_mask.get() == null) LOG.warning(LOG_PREFIX + "Failed to load image: computer_monitor_screen_mask_128.png");
+	@Override
+	public void click(final Player player, final int x, final int y) {
+		this.script.addAction("click", player, Integer.valueOf(x), Integer.valueOf(y));
 	}
 
 
@@ -174,14 +181,14 @@ public class Component_Monitor extends Component implements PixelSource {
 		if (super.isLocation(loc))
 			return true;
 		// screen
-		if (EqualsLocation(loc, this.screen.loc))
+		if (EqualsLocation(loc, this.screen.getLocation()))
 			return true;
 		return false;
 	}
 
 	public Location getScreenLocation() {
 		if (this.screen != null)
-			return this.screen.loc;
+			return this.screen.getLocation();
 		return null;
 	}
 
