@@ -1,10 +1,10 @@
-
-importClass(Packages.java.awt.Color);
+//#fps=20
+//#export=pixels
 
 
 
 var wrap = false;
-var sick_chance = 18.0;
+var sick_chance = 20.0;
 
 var extinct = 0;
 
@@ -29,11 +29,12 @@ function seed() {
 
 
 
-function onRender() {
+function loop() {
+	let color_white = Color.WHITE.getRGB();
+	let color_black = Color.BLACK.getRGB();
 	for (iy=0; iy<screen_height; iy++) {
-		for (ix=0; ix<screen_width; ix++) {
-			pixels[iy][ix] = (grid[iy][ix] ? Color.WHITE : Color.BLACK);
-		}
+		for (ix=0; ix<screen_width; ix++)
+			pixels[iy][ix] = (grid[iy][ix] ? color_white : color_black);
 	}
 	extinct++;
 	for (iy=0; iy<screen_height; iy++) {
