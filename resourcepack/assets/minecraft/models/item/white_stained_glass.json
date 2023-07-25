@@ -30,6 +30,12 @@
 		},
 		{
 			"predicate": {
+				"custom_model_data": 1972
+			},
+			"model": "item/arcade_pong"
+		},
+		{
+			"predicate": {
 				"custom_model_data": 1988
 			},
 			"model": "item/keypad"
