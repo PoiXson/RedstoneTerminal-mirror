@@ -23,9 +23,10 @@ seed();
 
 
 function seed() {
+	let chance = Math.floor(Math.random() * 8) + 1;
 	for (iy=0; iy<screen_height; iy++) {
 		for (ix=0; ix<screen_width; ix++) {
-			let rnd = Math.floor(Math.random() * 12.0);
+			let rnd = Math.floor(Math.random() * chance);
 			gridA[iy][ix] = (rnd == 0);
 		}
 	}
