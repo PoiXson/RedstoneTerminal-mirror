@@ -3,8 +3,8 @@
 
 
 
-var wrap = false;
-var sick_chance = 20.0;
+var wrap = true;
+var sick_chance = 50.0;
 
 var extinct = 0;
 
