@@ -1,5 +1,6 @@
 package com.poixson.redterm.components;
 
+import static com.poixson.commonmc.tools.scripting.engine.CraftScript.DEFAULT_PLAYER_DISTANCE;
 import static com.poixson.commonmc.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.utils.GraphicsUtils.LoadImage;
 
@@ -8,11 +9,15 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedTransferQueue;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.util.RayTraceResult;
+import org.bukkit.util.Vector;
 
 import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.commonmc.tools.mapstore.FreedMapStore;
@@ -23,6 +28,7 @@ import com.poixson.commonmc.tools.scripting.loader.ScriptLoader_File;
 import com.poixson.commonmc.tools.scripting.screen.MapScreen;
 import com.poixson.commonmc.tools.scripting.screen.PixelSource;
 import com.poixson.redterm.RedTermPlugin;
+import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.utils.FileUtils;
 
@@ -87,6 +93,7 @@ public class Component_Screen extends Component implements PixelSource {
 				.setTickListener(new Runnable() {
 					@Override
 					public void run() {
+						Component_Screen.this.doImports();
 						Component_Screen.this.script.tick();
 					}
 				})
@@ -107,15 +114,20 @@ public class Component_Screen extends Component implements PixelSource {
 			final Iabcd screen_size = this.screen.getScreenSize();
 			this.script.setVariable("screen_width",  Integer.valueOf(screen_size.c));
 			this.script.setVariable("screen_height", Integer.valueOf(screen_size.d));
-			final int[][] pixels = new int[screen_size.d][screen_size.c];
-			final int color_black = Color.BLACK.getRGB();
-			for (int iy=0; iy<screen_size.d; iy++) {
-				for (int ix=0; ix<screen_size.c; ix++)
-					pixels[iy][ix] = color_black;
+			// var imports
+			if (this.script.hasImport("cursors")) {
+				final Map<String, String> cursors = new HashMap<String, String>();
+				this.script.setVariable("cursors", cursors);
 			}
-			this.script.setVariable("pixels", pixels);
-			final Map<String, String> cursors = new HashMap<String, String>();
-			this.script.setVariable("cursors", cursors);
+			// var exports
+			if (this.script.hasExport("pixels")) {
+				final Color[][] pixels = new Color[screen_size.d][screen_size.c];
+				for (int iy=0; iy<screen_size.d; iy++) {
+					for (int ix=0; ix<screen_size.c; ix++)
+						pixels[iy][ix] = Color.BLACK;
+				}
+				this.script.setVariable("pixels", pixels);
+			}
 			this.script.start();
 		}
 		plugin.register(this);
@@ -133,6 +145,43 @@ public class Component_Screen extends Component implements PixelSource {
 			final FreedMapStore mapstore = pxnCommonPlugin.GetFreedMapStore();
 			if (mapstore == null) throw new RuntimeException("FreedMapStore is not available");
 			mapstore.release(this.screen.getMapID());
+		}
+	}
+
+
+
+	public void doImports() {
+		for (final String key : this.script.getImports()) {
+			KEY_SWITCH:
+			switch (key) {
+			case "cursors": {
+				final Iabcd screen_size = this.screen.getScreenSize();
+				final Map<String, Iab> cursors = new ConcurrentHashMap<String, Iab>();
+				PLAYERS_LOOP:
+				for (final Player p : Bukkit.getOnlinePlayers()) {
+					final RayTraceResult ray = p.rayTraceBlocks(DEFAULT_PLAYER_DISTANCE);
+					if (ray != null
+					&& EqualsLocation(ray.getHitBlock().getLocation(), this.location)) {
+						final Vector vec = ray.getHitPosition();
+						final BlockFace direction = p.getFacing();
+						final int x;
+						DIR_SWITCH:
+						switch (direction) {
+						case NORTH: x = this.map_size - ((int)Math.round((vec.getX() % 1.0) * ((double)this.map_size))) - screen_size.a; break DIR_SWITCH;
+						case SOUTH: x =                 ((int)Math.round((vec.getX() % 1.0) * ((double)this.map_size))) - screen_size.a; break DIR_SWITCH;
+						case EAST:  x = this.map_size - ((int)Math.round((vec.getZ() % 1.0) * ((double)this.map_size))) - screen_size.a; break DIR_SWITCH;
+						case WEST:  x =                 ((int)Math.round((vec.getZ() % 1.0) * ((double)this.map_size))) - screen_size.a; break DIR_SWITCH;
+						default: continue PLAYERS_LOOP;
+						}
+						final int y = this.map_size - ((int)Math.round((vec.getY() % 1.0) * ((double)this.map_size))) - screen_size.b;
+						cursors.put(p.getName(), new Iab(x, y));
+					}
+				}
+				this.script.setVariable("cursors", cursors);
+				break KEY_SWITCH;
+			}
+			default: break KEY_SWITCH;
+			}
 		}
 	}
 
