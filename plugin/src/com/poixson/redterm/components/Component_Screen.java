@@ -112,8 +112,9 @@ public class Component_Screen extends Component implements PixelSource {
 		// start script
 		{
 			final Iabcd screen_size = this.screen.getScreenSize();
-			this.script.setVariable("screen_width",  Integer.valueOf(screen_size.c));
-			this.script.setVariable("screen_height", Integer.valueOf(screen_size.d));
+			this.script
+				.setVariable("screen_width",  Integer.valueOf(screen_size.c))
+				.setVariable("screen_height", Integer.valueOf(screen_size.d));
 			// var imports
 			if (this.script.hasImport("cursors")) {
 				final Map<String, String> cursors = new HashMap<String, String>();

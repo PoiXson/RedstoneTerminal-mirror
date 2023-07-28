@@ -1,7 +1,7 @@
 //#fps=20
 //#export=pixels
+//#import=cursors
 
-importClass(Packages.java.lang.Thread);
 
 
 

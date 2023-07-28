@@ -141,9 +141,9 @@ function GetTextWidth(text, size) {
 }
 
 function DrawText(text, x, y, font, style, size, color, back_color) {
-	if (isNullOrEmpty(font )) font = "Noto Sans Mono";
+	if (isNullOrEmpty(font )) font  = "Noto Sans Mono";
 	if (isNullOrEmpty(style)) style = Font.PLAIN;
-	if (isNullOrEmpty(size )) size = 8;
+	if (isNullOrEmpty(size )) size  = 8;
 	if (isNullOrEmpty(color)) color = Color.WHITE;
 	let w = GetTextWidth(text, size);
 	let h = size;
