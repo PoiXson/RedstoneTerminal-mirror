@@ -24,9 +24,6 @@ var ball_y = screen_height * 0.5;
 var vel_x = 1.6;
 var vel_y = 0.5;
 
-var color_black = Color.BLACK.getRGB();
-var color_white = Color.WHITE.getRGB();
-
 
 
 function loop() {
@@ -34,7 +31,7 @@ function loop() {
 //	if (isPlayer2) {
 		for (let iy=0; iy<screen_height; iy++) {
 			for (let ix=0; ix<screen_width; ix++)
-				pixels[iy][ix] = color_black;
+				pixels[iy][ix] = Color.BLACK;
 		}
 		let cursor_1 = cursors.get(player1);
 		let cursor_2 = cursors.get(player2);
@@ -95,8 +92,8 @@ score_top = "" + score_1 + " - " + score_2;
 //TODO: make transparent background
 	let top_left = Math.round( (screen_width - GetTextWidth(score_top, 8)) * 0.5 );
 	let bot_left = Math.round( (screen_width - GetTextWidth(score_bot, 8)) * 0.5 );
-	DrawText(score_top, top_left, 0,                null, 0, 8, color_white, Color.BLACK.getRGB());
-	DrawText(score_bot, bot_left, screen_height-10, null, 0, 8, color_white, Color.BLACK.getRGB());
+	DrawText(score_top, top_left, 0,                null, 0, 8, Color.WHITE, Color.BLACK);
+	DrawText(score_bot, bot_left, screen_height-10, null, 0, 8, Color.WHITE, Color.BLACK);
 //	// player 2
 //	if (isPlayer2) {
 //		DrawPaddle(             5, paddle_2);
@@ -126,7 +123,7 @@ function DrawPaddle(x, pos) {
 	for (let iy=0-paddle_half; iy<paddle_half; iy++) {
 		yy = iy+y;
 		if (yy >= 0 && yy < screen_height)
-			pixels[yy][x] = color_white;
+			pixels[yy][x] = Color.WHITE;
 	}
 }
 
@@ -137,5 +134,5 @@ function DrawBall(x, y) {
 	if (xx >= screen_width)  xx = screen_width  - 1;
 	if (yy < 0.0) yy = 0.0; else
 	if (yy >= screen_height) yy = screen_height - 1;
-	pixels[yy][xx] = color_white;
+	pixels[yy][xx] = Color.WHITE;
 }

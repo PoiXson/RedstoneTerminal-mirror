@@ -70,11 +70,9 @@ function loop() {
 				gridA[iy][ix] = gridB[iy][ix];
 		}
 	}
-	let color_white = Color.WHITE.getRGB();
-	let color_black = Color.BLACK.getRGB();
 	for (iy=0; iy<screen_height; iy++) {
 		for (ix=0; ix<screen_width; ix++)
-			pixels[iy][ix] = (gridA[iy][ix] ? color_white : color_black);
+			pixels[iy][ix] = (gridA[iy][ix] ? Color.WHITE : Color.BLACK);
 	}
 }
 

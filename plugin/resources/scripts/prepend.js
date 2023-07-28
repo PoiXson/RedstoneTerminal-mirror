@@ -145,15 +145,15 @@ function DrawText(text, x, y, font, style, size, color, back_color) {
 	if (isNullOrEmpty(style)) style = Font.PLAIN;
 	if (isNullOrEmpty(size )) size = 8;
 	if (isNullOrEmpty(color)) color = Color.WHITE;
-	else                      color = new Color(color);
 	let w = GetTextWidth(text, size);
 	let h = size;
 	let img = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 	let graphics = img.createGraphics();
 	graphics.setFont(new Font(font, style, size));
 	graphics.setColor(color);
-	graphics.setBackground(isNullOrEmpty(back_color) ? Color.BLACK : new Color(back_color));
+	graphics.setBackground(isNullOrEmpty(back_color) ? Color.BLACK : back_color);
 	graphics.drawString(text, 0, size);
-	MapUtils.DrawImagePixels(pixels, x, y, img, isNullOrEmpty(back_color) ? Color.BLACK.getRGB() : null);
+	if (isNullOrEmpty(back_color)) MapUtils.DrawImagePixels(          pixels, x, y, img            );
+	else                           MapUtils.DrawImagePixels_ColorMask(pixels, x, y, img, back_color);
 	graphics.dispose();
 }
