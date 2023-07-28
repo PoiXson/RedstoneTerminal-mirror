@@ -34,7 +34,7 @@ import com.poixson.utils.FileUtils;
 
 
 public class Component_Screen extends Component implements PixelSource {
-//	public static final int DEFAULT_FPS = 1;
+	public static final int DEFAULT_FPS = 1;
 
 	protected final MapScreen screen;
 	protected final CraftScriptManager script;
@@ -104,9 +104,13 @@ public class Component_Screen extends Component implements PixelSource {
 					}
 				});
 			this.loadDefaultImages();
-//TODO
-//			this.screen.setFPS( this.script.getFPS() );
-			this.screen.setFPS(20);
+			// screen fps
+			int fps = DEFAULT_FPS;
+			if (this.script.hasFlag("fps")) {
+				fps = this.script.getFlagInt("fps");
+				if (fps < 1) fps = DEFAULT_FPS;
+			}
+			this.screen.setFPS(fps);
 			this.screen.start();
 		}
 		// start script
