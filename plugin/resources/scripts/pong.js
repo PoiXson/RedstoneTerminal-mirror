@@ -5,24 +5,25 @@
 
 
 
-var player1 = "lorenzop";
-var player2 = "DuckTransport";
 
-var score_1 = 0;
-var score_2 = 0;
-var score_points = 0;
+let player1 = "lorenzop";
+let player2 = "DuckTransport";
 
-var paddle_1 = 0.5;
-var paddle_2 = 0.5;
-var paddle_size  = 20;
-var paddle_half  = Math.round(paddle_size * 0.5);
-var paddle_shrink = 0.99;
-var paddle_angle = -2.4;
+let score_1 = 0;
+let score_2 = 0;
+let score_points = 0;
 
-var ball_x = screen_width  * 0.5;
-var ball_y = screen_height * 0.5;
-var vel_x = 1.6;
-var vel_y = 0.5;
+let paddle_1 = 0.5;
+let paddle_2 = 0.5;
+let paddle_size  = 20;
+let paddle_half  = Math.round(paddle_size * 0.5);
+let paddle_shrink = 0.99;
+let paddle_angle = -2.4;
+
+let ball_x = screen_width  * 0.5;
+let ball_y = screen_height * 0.5;
+let vel_x = 1.6;
+let vel_y = 0.5;
 
 
 

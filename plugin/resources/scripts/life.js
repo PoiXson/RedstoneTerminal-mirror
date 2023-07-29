@@ -3,13 +3,13 @@
 
 
 
-var wrap = true;
-var sick_chance = 50.0;
+let wrap = true;
+let sick_chance = 50.0;
 
-var extinct = 0;
+let extinct = 0;
 
-var gridA = [];
-var gridB = [];
+let gridA = [];
+let gridB = [];
 for (iy=0; iy<screen_height; iy++) {
 	gridA[iy] = [];
 	gridB[iy] = [];

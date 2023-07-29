@@ -4,11 +4,11 @@
 
 
 // load images
-var img_wallpaper      = LoadImage("monitor/computer_wallpaper_86-67.png");
-var img_cursor         = LoadImage("monitor/computer_cursor.png"         );
-var img_cursor_mask    = LoadImage("monitor/computer_cursor_mask.png"    );
-//var img_hourglass      = LoadImage("monitor/computer_hourglass.png"      );
-//var img_hourglass_mask = LoadImage("monitor/computer_hourglass_mask.png" );
+let img_wallpaper      = LoadImage("monitor/computer_wallpaper_86-67.png");
+let img_cursor         = LoadImage("monitor/computer_cursor.png"         );
+let img_cursor_mask    = LoadImage("monitor/computer_cursor_mask.png"    );
+//let img_hourglass      = LoadImage("monitor/computer_hourglass.png"      );
+//let img_hourglass_mask = LoadImage("monitor/computer_hourglass_mask.png" );
 if (isNullOrEmpty(img_wallpaper     )) error("Failed to load image: computer_wallpaper_86-67.png");
 if (isNullOrEmpty(img_cursor        )) error("Failed to load image: computer_cursor.png"         );
 if (isNullOrEmpty(img_cursor_mask   )) error("Failed to load image: computer_cursor_mask.png"    );
@@ -17,7 +17,7 @@ if (isNullOrEmpty(img_cursor_mask   )) error("Failed to load image: computer_cur
 
 
 
-var c = 0;
+let c = 0;
 function loop() {
 //	if (!isNullOrEmpty(img_wallpaper))
 		MapUtils.DrawImagePixels(pixels, 0, 0, img_wallpaper);
