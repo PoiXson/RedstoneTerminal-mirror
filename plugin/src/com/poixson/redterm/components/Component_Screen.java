@@ -2,6 +2,9 @@ package com.poixson.redterm.components;
 
 import static com.poixson.commonmc.tools.scripting.engine.CraftScript.DEFAULT_PLAYER_DISTANCE;
 import static com.poixson.commonmc.utils.BukkitUtils.EqualsLocation;
+import static com.poixson.commonmc.utils.ScriptUtils.FixClickPosition;
+import static com.poixson.commonmc.utils.ScriptUtils.FixCursorPosition;
+import static com.poixson.commonmc.utils.ScriptUtils.PlayerToHashMap;
 import static com.poixson.utils.GraphicsUtils.LoadImage;
 
 import java.awt.Color;
@@ -168,20 +171,14 @@ public class Component_Screen extends Component implements PixelSource {
 					if (ray != null
 					&& EqualsLocation(ray.getHitBlock().getLocation(), this.location)) {
 						final Vector vec = ray.getHitPosition();
-						final BlockFace direction = p.getFacing();
-						final int x;
-						DIR_SWITCH:
-						switch (direction) {
-						case NORTH: x = this.map_size - ((int)Math.round((vec.getX() % 1.0) * ((double)this.map_size))) - screen_size.a; break DIR_SWITCH;
-						case SOUTH: x =                 ((int)Math.round((vec.getX() % 1.0) * ((double)this.map_size))) - screen_size.a; break DIR_SWITCH;
-						case EAST:  x = this.map_size - ((int)Math.round((vec.getZ() % 1.0) * ((double)this.map_size))) - screen_size.a; break DIR_SWITCH;
-						case WEST:  x =                 ((int)Math.round((vec.getZ() % 1.0) * ((double)this.map_size))) - screen_size.a; break DIR_SWITCH;
-						default: continue PLAYERS_LOOP;
+						final Iab pos = FixCursorPosition(vec, this.map_size, screen_size, this.direction);
+						if (pos != null) {
+							final Map<String, Object> player_info = PlayerToHashMap(p);
+							player_info.put("cursor_x", Integer.valueOf(pos.a));
+							player_info.put("cursor_y", Integer.valueOf(pos.b));
+							players.put(p.getName(), player_info);
 						}
-						final int y = this.map_size - ((int)Math.round((vec.getY() % 1.0) * ((double)this.map_size))) - screen_size.b;
-						cursors.put(p.getName(), new Iab(x, y));
 					}
-				}
 				this.script.setVariable("cursors", cursors);
 				break KEY_SWITCH;
 			}
@@ -224,8 +221,17 @@ public class Component_Screen extends Component implements PixelSource {
 
 
 	@Override
-	public void click(final Player player, final int x, final int y) {
-		this.script.addAction("click", player, Integer.valueOf(x), Integer.valueOf(y));
+	public void click(final Player player, final Vector vec) {
+		final Iabcd screen_size = this.screen.getScreenSize();
+		final Iab pos = FixClickPosition(vec, this.map_size, screen_size, this.direction, player.getLocation());
+		if (pos != null) {
+			final Map<String, Object> player_info = PlayerToHashMap(player);
+			this.script.addAction(
+				"click",
+				player_info,
+				Integer.valueOf(pos.a), Integer.valueOf(pos.b)
+			);
+		}
 	}
 
 

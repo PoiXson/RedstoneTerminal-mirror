@@ -19,6 +19,7 @@ import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.util.Vector;
 
 import com.poixson.redterm.RedTermPlugin;
 
@@ -44,7 +45,7 @@ public abstract class Component implements Closeable {
 	@Override
 	public abstract void close();
 
-	public abstract void click(final Player player, final int x, final int y);
+	public abstract void click(final Player player, final Vector vec);
 
 
 

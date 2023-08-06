@@ -22,7 +22,6 @@ import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.Vector;
 
 import com.poixson.commonmc.tools.plugin.xListener;
 import com.poixson.redterm.RedTermPlugin;
@@ -241,17 +240,7 @@ ActivateComponent(this.plugin, loc, filename);
 				final Component component = this.plugin.getComponent(entity);
 				if (component != null) {
 //TODO: permissions
-					final Vector vec = event.getClickedPosition();
-					final int x;
-					final int y = (int) Math.round(128.0 * vec.getY());
-					switch (component.direction) {
-					case NORTH: x = (int) Math.round(128.0 * (0.0 - vec.getX())); break;
-					case SOUTH: x = (int) Math.round(128.0 * (      vec.getX())); break;
-					case EAST:  x = (int) Math.round(128.0 * (0.0 - vec.getZ())); break;
-					case WEST:  x = (int) Math.round(128.0 * (      vec.getZ())); break;
-					default: return;
-					}
-					component.click(event.getPlayer(), x, y);
+					component.click(event.getPlayer(), event.getClickedPosition());
 				}
 			}
 			break HAND_SWITCH;
