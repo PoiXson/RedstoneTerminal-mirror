@@ -84,6 +84,15 @@ function ForceEndsWith(str, append) {
 
 
 
+function TruncateString(str, len) {
+	if (!isNullOrEmpty(str)
+	&&  str.length > len)
+		return str.substring(0, len);
+	return str;
+}
+
+
+
 function ReplaceAt(str, index, replace) {
 	return str.substr(0, index) + replace + str.substr(index+replace.length);
 }
