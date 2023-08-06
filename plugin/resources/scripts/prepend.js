@@ -1,3 +1,10 @@
+/*
+ * Redstone Terminal - Computers in minecraft
+ * copyright 2023
+ * license AGPL-3
+ * lorenzo at poixson.com
+ * https://poixson.com/
+ */
 
 importClass(Packages.java.io.File);
 importClass(Packages.java.nio.file.Files);
