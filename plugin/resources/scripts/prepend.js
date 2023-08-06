@@ -9,7 +9,7 @@ importClass(Packages.java.awt.image.BufferedImage);
 
 importClass(Packages.com.poixson.utils.FileUtils);
 importClass(Packages.com.poixson.utils.GraphicsUtils);
-importClass(Packages.com.poixson.commonmc.utils.MapUtils);
+importClass(Packages.com.poixson.commonmc.utils.ScriptUtils);
 
 
 
@@ -17,7 +17,6 @@ function isNullOrEmpty(value) {
 	if (!value)             return true;
 	if (value == undefined) return true;
 	if (value == "")        return true;
-	if (value.length == 0)  return true;
 	return false;
 }
 
@@ -121,7 +120,7 @@ function loadjs(file) {
 	if (file.startsWith("/")
 	||  file.includes("..") ) {
 		error("error: Invalid file: "+file);
-		return;
+		return "";
 	}
 	file = ForceEndsWith(file, ".js");
 	if (options.Debug)
@@ -136,5 +135,5 @@ function loadjs(file) {
 function LoadImage(filename) {
 	return GraphicsUtils.LoadImage(
 		FileUtils.OpenResource(plugin.getClass(), "img/" + filename)
-	)
+	);
 }
