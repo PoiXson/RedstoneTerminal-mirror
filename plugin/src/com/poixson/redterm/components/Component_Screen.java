@@ -71,7 +71,8 @@ public class Component_Screen extends Component implements PixelSource {
 				.setSafeScope(false)
 				.setThreaded(true)
 				.setVariable("out", this.out)
-				.setVariable("plugin", plugin);
+				.setVariable("plugin", plugin)
+				.setVariable("map_size", Integer.valueOf(this.map_size));
 			try {
 				this.script.getSources();
 			} catch (FileNotFoundException e) {
@@ -158,14 +159,15 @@ public class Component_Screen extends Component implements PixelSource {
 
 
 
+//TODO: cache nearby players
 	public void doImports() {
 		for (final String key : this.script.getImports()) {
 			KEY_SWITCH:
 			switch (key) {
 			case "cursors": {
 				final Iabcd screen_size = this.screen.getScreenSize();
-				final Map<String, Iab> cursors = new ConcurrentHashMap<String, Iab>();
-				PLAYERS_LOOP:
+				final Map<String, Object> players = new ConcurrentHashMap<String, Object>();
+				//PLAYERS_LOOP:
 				for (final Player p : Bukkit.getOnlinePlayers()) {
 					final RayTraceResult ray = p.rayTraceBlocks(DEFAULT_PLAYER_DISTANCE);
 					if (ray != null
@@ -179,7 +181,8 @@ public class Component_Screen extends Component implements PixelSource {
 							players.put(p.getName(), player_info);
 						}
 					}
-				this.script.setVariable("cursors", cursors);
+				} // end PLAYERS_LOOP
+				this.script.setVariable("players", players);
 				break KEY_SWITCH;
 			}
 			default: break KEY_SWITCH;
@@ -215,7 +218,12 @@ public class Component_Screen extends Component implements PixelSource {
 
 
 	public void loadDefaultImages() {
-		this.screen.setScreenMask( LoadImage(FileUtils.OpenResource(this.plugin.getClass(), "img/monitor/computer_monitor_screen_mask_128.png")) );
+		this.screen.setScreenMask(
+			LoadImage(FileUtils.OpenResource(
+				this.plugin.getClass(),
+				"img/monitor/computer_monitor_screen_mask_128.png"
+			))
+		);
 	}
 
 
@@ -241,15 +249,11 @@ public class Component_Screen extends Component implements PixelSource {
 		if (super.isLocation(loc))
 			return true;
 		// screen
-		if (EqualsLocation(loc, this.screen.getLocation()))
-			return true;
-		return false;
+		return (EqualsLocation(loc, this.screen.getLocation()));
 	}
 
 	public Location getScreenLocation() {
-		if (this.screen != null)
-			return this.screen.getLocation();
-		return null;
+		return (this.screen==null ? null : this.screen.getLocation());
 	}
 
 
