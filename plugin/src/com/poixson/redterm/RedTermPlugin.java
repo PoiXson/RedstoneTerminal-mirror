@@ -15,7 +15,7 @@ import org.bukkit.util.RayTraceResult;
 import com.poixson.commonmc.tools.plugin.xJavaPlugin;
 import com.poixson.redterm.commands.Commands;
 import com.poixson.redterm.components.Component;
-import com.poixson.redterm.listeners.ComponentListeners;
+import com.poixson.redterm.components.ComponentListeners;
 
 
 public class RedTermPlugin extends xJavaPlugin {

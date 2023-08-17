@@ -1,4 +1,4 @@
-package com.poixson.redterm.listeners;
+package com.poixson.redterm.components;
 
 import static com.poixson.commonmc.utils.ItemUtils.GetCustomModel;
 import static com.poixson.commonmc.utils.LocationUtils.YawToFace;
@@ -25,8 +25,6 @@ import org.bukkit.inventory.ItemStack;
 
 import com.poixson.commonmc.tools.plugin.xListener;
 import com.poixson.redterm.RedTermPlugin;
-import com.poixson.redterm.components.Component;
-import com.poixson.redterm.components.Component_Screen;
 
 
 public class ComponentListeners extends xListener<RedTermPlugin> {
