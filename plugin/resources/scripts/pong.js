@@ -16,6 +16,9 @@
 let player1 = null;
 let player2 = null;
 
+const PLAYER_PADDLE_SPEED = 0.1;
+const     AI_PADDLE_SPEED = 0.18;
+
 let score_1 = 0;
 let score_2 = 0;
 let score_points = 0;
@@ -104,9 +107,10 @@ function click_menu_num_players(player, x, y) {
 	// button - 1 Player
 	if (CursorInRange(menu_button_x, menu_button_A_y,
 	menu_button_w, menu_button_h, x, y)) {
-		state = GAME_STATE.PLAYING;
+		RandomBallDirection();
 		player1 = player.get("name");
 		player2 = null;
+		state = GAME_STATE.PLAYING;
 		return;
 	}
 	// button - 2 Player
@@ -137,6 +141,7 @@ function click_menu_sel_players(player, x, y) {
 	&&  !isNullOrEmpty(player2)) {
 		if (CursorInRange(menu_sel_players_go_x, menu_sel_players_go_y,
 		menu_sel_players_go_w, menu_button_h, x, y)) {
+			RandomBallDirection();
 			state = GAME_STATE.PLAYING;
 			return;
 		}
@@ -274,11 +279,12 @@ function game_loop() {
 		for (let ix=0; ix<screen_width; ix++)
 			pixels[iy][ix] = Color.BLACK;
 	}
-	let cursor_1 =                                  players.get(player1);
+	let cursor_1 = (isNullOrEmpty(player1) ? null : players.get(player1));
 	let cursor_2 = (isNullOrEmpty(player2) ? null : players.get(player2));
-	if (!isNullOrEmpty(cursor_1)) paddle_1 -= (paddle_1 - (cursor_1.get("cursor_y") / screen_height)) * 0.1;
-	if (!isNullOrEmpty(cursor_2)) paddle_2 -= (paddle_2 - (cursor_2.get("cursor_y") / screen_height)) * 0.1;
-	else                          paddle_2 -= ((paddle_2 - (ball_y/screen_height)) * 0.15) * (ball_x/screen_width);
+	if (!isNullOrEmpty(cursor_1)) paddle_1 -=  (paddle_1 - (cursor_1.get("cursor_y") / screen_height)) * PLAYER_PADDLE_SPEED;
+	else                          paddle_1 -= ((paddle_1 - (ball_y/screen_height)) * AI_PADDLE_SPEED) * (1.0-(ball_x/screen_width));
+	if (!isNullOrEmpty(cursor_2)) paddle_2 -=  (paddle_2 - (cursor_2.get("cursor_y") / screen_height)) * PLAYER_PADDLE_SPEED;
+	else                          paddle_2 -= ((paddle_2 - (ball_y/screen_height)) * AI_PADDLE_SPEED) * (ball_x/screen_width);
 	if (paddle_1 < 0.0) paddle_1 = 0.0; else
 	if (paddle_1 > 1.0) paddle_1 = 1.0;
 	if (paddle_2 < 0.0) paddle_2 = 0.0; else
@@ -329,6 +335,13 @@ function game_loop() {
 	DrawPaddle(             5, paddle_1);
 	DrawPaddle(screen_width-5, paddle_2);
 	DrawBall(ball_x, ball_y);
+}
+
+
+
+function RandomBallDirection() {
+	if (0 == (Math.round(Math.random() * 9999.0) % 2))
+		vel_x = 0.0 - vel_x;
 }
 
 
