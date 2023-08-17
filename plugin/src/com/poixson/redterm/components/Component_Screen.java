@@ -50,7 +50,8 @@ public class Component_Screen extends Component implements PixelSource {
 
 	public Component_Screen(final RedTermPlugin plugin,
 			final Location loc, final BlockFace facing,
-			final String filename) {
+			final String filename)
+			throws FileNotFoundException {
 		super(plugin, loc, facing);
 		final Location loc_screen = this.location.clone()
 				.add(this.direction.getDirection());
@@ -73,11 +74,8 @@ public class Component_Screen extends Component implements PixelSource {
 				.setVariable("out", this.out)
 				.setVariable("plugin", plugin)
 				.setVariable("map_size", Integer.valueOf(this.map_size));
-			try {
-				this.script.getSources();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+			// load script files
+			this.script.getSources();
 		}
 		// map screen
 		{

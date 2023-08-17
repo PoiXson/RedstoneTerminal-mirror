@@ -5,6 +5,7 @@ import static com.poixson.commonmc.utils.LocationUtils.FaceToRotation;
 import static com.poixson.commonmc.utils.LocationUtils.RotationToFace;
 
 import java.io.Closeable;
+import java.io.FileNotFoundException;
 import java.util.function.Predicate;
 
 import org.bukkit.Location;
@@ -90,7 +91,8 @@ public abstract class Component implements Closeable {
 
 
 	public static Component ActivateComponent(final RedTermPlugin plugin,
-			final Location loc, final String filename) {
+			final Location loc, final String filename)
+			throws FileNotFoundException {
 		// existing component
 		{
 			final Component component = plugin.getComponent(loc);

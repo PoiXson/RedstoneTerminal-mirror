@@ -8,6 +8,8 @@ import static com.poixson.redterm.components.Component.GetEntityFilter;
 import static com.poixson.redterm.components.Component.GetScreenFilter;
 import static com.poixson.redterm.components.Component.PlaceComputerEntity;
 
+import java.io.FileNotFoundException;
+
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -211,9 +213,13 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 //TODO: permissions
 //TODO: filename
 final String filename = "default.js";
-				// activate component
-//TODO
-ActivateComponent(this.plugin, loc, filename);
+			// activate component
+			try {
+				ActivateComponent(this.plugin, loc, filename);
+			} catch (FileNotFoundException e) {
+				event.setCancelled(true);
+				e.printStackTrace();
+				break TYPE_SWITCH;
 //				final Component component = ActivateComponent(this.plugin, loc, filename);
 //				if (component != null)
 //					player.playSound(loc, Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
