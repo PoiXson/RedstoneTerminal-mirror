@@ -209,9 +209,9 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 		case BARRIER: {
 			final Location loc = block.getLocation();
 			final Component existing = this.plugin.getComponent(loc);
-			if (existing == null) {
+			if (existing != null) break TYPE_SWITCH;
 //TODO: permissions
-//TODO: filename
+//TODO: how to select the filename?
 final String filename = "default.js";
 			// activate component
 			try {
@@ -219,13 +219,13 @@ final String filename = "default.js";
 			} catch (FileNotFoundException e) {
 				event.setCancelled(true);
 				e.printStackTrace();
-				break TYPE_SWITCH;
-//				final Component component = ActivateComponent(this.plugin, loc, filename);
-//				if (component != null)
-//					player.playSound(loc, Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
 			}
+//TODO: finish or remove this
+//			final Component component = ActivateComponent(this.plugin, loc, filename);
+//			if (component != null)
+//				player.playSound(loc, Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
 			break TYPE_SWITCH;
-		}
+		} // end barrier
 		default: break TYPE_SWITCH;
 		}
 	}

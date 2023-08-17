@@ -44,8 +44,6 @@ public class Component_Screen extends Component implements PixelSource {
 
 	protected final PrintStream out;
 
-	protected final int map_size = 128;
-
 
 
 	public Component_Screen(final RedTermPlugin plugin,
@@ -72,8 +70,7 @@ public class Component_Screen extends Component implements PixelSource {
 				.setSafeScope(false)
 				.setThreaded(true)
 				.setVariable("out", this.out)
-				.setVariable("plugin", plugin)
-				.setVariable("map_size", Integer.valueOf(this.map_size));
+				.setVariable("plugin", plugin);
 			// load script files
 			this.script.getSources();
 		}
@@ -87,10 +84,10 @@ public class Component_Screen extends Component implements PixelSource {
 			this.screen =
 				(new MapScreen(
 					plugin,
+					map_id,
 					loc_screen,
 					facing,
-					map_id,
-					this.map_size
+					false
 				))
 				.setTickListener(new Runnable() {
 					@Override
@@ -105,12 +102,19 @@ public class Component_Screen extends Component implements PixelSource {
 						return Component_Screen.this.getPixels(player);
 					}
 				});
-			this.loadDefaultImages();
+//TODO: move this to a script flag?
+			// load screen mask
+			this.screen.setScreenMask(
+					LoadImage(FileUtils.OpenResource(
+						this.plugin.getClass(),
+						"img/monitor/computer_monitor_screen_mask_128.png"
+					))
+				);
 			// screen fps
 			int fps = DEFAULT_FPS;
 			if (this.script.hasFlag("fps")) {
 				fps = this.script.getFlagInt("fps");
-				if (fps < 1) fps = DEFAULT_FPS;
+				if (fps < 1) fps = 1;
 			}
 			this.screen.setFPS(fps);
 			this.screen.start();
@@ -171,7 +175,7 @@ public class Component_Screen extends Component implements PixelSource {
 					if (ray != null
 					&& EqualsLocation(ray.getHitBlock().getLocation(), this.location)) {
 						final Vector vec = ray.getHitPosition();
-						final Iab pos = FixCursorPosition(vec, this.map_size, screen_size, this.direction);
+						final Iab pos = FixCursorPosition(vec, screen_size, this.direction);
 						if (pos != null) {
 							final Map<String, Object> player_info = PlayerToHashMap(p);
 							player_info.put("cursor_x", Integer.valueOf(pos.a));
@@ -215,21 +219,10 @@ public class Component_Screen extends Component implements PixelSource {
 
 
 
-	public void loadDefaultImages() {
-		this.screen.setScreenMask(
-			LoadImage(FileUtils.OpenResource(
-				this.plugin.getClass(),
-				"img/monitor/computer_monitor_screen_mask_128.png"
-			))
-		);
-	}
-
-
-
 	@Override
 	public void click(final Player player, final Vector vec) {
 		final Iabcd screen_size = this.screen.getScreenSize();
-		final Iab pos = FixClickPosition(vec, this.map_size, screen_size, this.direction, player.getLocation());
+		final Iab pos = FixClickPosition(vec, screen_size, this.direction, player.getLocation());
 		if (pos != null) {
 			final Map<String, Object> player_info = PlayerToHashMap(player);
 			this.script.addAction(
