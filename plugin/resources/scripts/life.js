@@ -18,10 +18,10 @@ let extinct = 0;
 
 let gridA = [];
 let gridB = [];
-for (iy=0; iy<screen_height; iy++) {
+for (let iy=0; iy<screen_height; iy++) {
 	gridA[iy] = [];
 	gridB[iy] = [];
-	for (ix=0; ix<screen_width; ix++) {
+	for (let ix=0; ix<screen_width; ix++) {
 		gridA[iy][ix] = false;
 		gridB[iy][ix] = false;
 	}
@@ -32,8 +32,8 @@ seed();
 
 function seed() {
 	let chance = Math.floor(Math.random() * 8) + 1;
-	for (iy=0; iy<screen_height; iy++) {
-		for (ix=0; ix<screen_width; ix++) {
+	for (let iy=0; iy<screen_height; iy++) {
+		for (let ix=0; ix<screen_width; ix++) {
 			let rnd = Math.floor(Math.random() * chance);
 			gridA[iy][ix] = (rnd == 0);
 		}
@@ -44,8 +44,8 @@ function seed() {
 
 function loop() {
 	extinct++;
-	for (iy=0; iy<screen_height; iy++) {
-		for (ix=0; ix<screen_width; ix++) {
+	for (let iy=0; iy<screen_height; iy++) {
+		for (let ix=0; ix<screen_width; ix++) {
 			let c = 0;
 			if (isAlive(ix-1, iy-1)) c++;
 			if (isAlive(ix,   iy-1)) c++;
@@ -73,13 +73,13 @@ function loop() {
 		seed();
 		extinct = 0;
 	} else {
-		for (iy=0; iy<screen_height; iy++) {
-			for (ix=0; ix<screen_width; ix++)
+		for (let iy=0; iy<screen_height; iy++) {
+			for (let ix=0; ix<screen_width; ix++)
 				gridA[iy][ix] = gridB[iy][ix];
 		}
 	}
-	for (iy=0; iy<screen_height; iy++) {
-		for (ix=0; ix<screen_width; ix++)
+	for (let iy=0; iy<screen_height; iy++) {
+		for (let ix=0; ix<screen_width; ix++)
 			pixels[iy][ix] = (gridA[iy][ix] ? Color.WHITE : Color.BLACK);
 	}
 }
