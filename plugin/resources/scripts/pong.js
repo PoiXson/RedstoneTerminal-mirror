@@ -274,10 +274,11 @@ function game_loop() {
 		for (let ix=0; ix<screen_width; ix++)
 			pixels[iy][ix] = Color.BLACK;
 	}
-	let cursor_1 = players.get(player1);
-	let cursor_2 = players.get(player2);
+	let cursor_1 =                                  players.get(player1);
+	let cursor_2 = (isNullOrEmpty(player2) ? null : players.get(player2));
 	if (!isNullOrEmpty(cursor_1)) paddle_1 -= (paddle_1 - (cursor_1.get("cursor_y") / screen_height)) * 0.1;
 	if (!isNullOrEmpty(cursor_2)) paddle_2 -= (paddle_2 - (cursor_2.get("cursor_y") / screen_height)) * 0.1;
+	else                          paddle_2 -= ((paddle_2 - (ball_y/screen_height)) * 0.15) * (ball_x/screen_width);
 	if (paddle_1 < 0.0) paddle_1 = 0.0; else
 	if (paddle_1 > 1.0) paddle_1 = 1.0;
 	if (paddle_2 < 0.0) paddle_2 = 0.0; else
