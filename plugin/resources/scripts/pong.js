@@ -41,7 +41,8 @@ const GAME_STATE = {
 	MENU_SEL_PLAYERS: 2,
 	TOP_SCORES:       3,
 	PLAYING:          4,
-	END_GAME:         5
+	PAUSED:           5,
+	END_GAME:         6
 };
 let state = GAME_STATE.MENU_MAIN;
 
@@ -57,6 +58,14 @@ const menu_sel_players_pad_x =  4;
 const menu_sel_players_go_x  = 31;
 const menu_sel_players_go_y  = 50;
 const menu_sel_players_go_w  = 25;
+const paused_button_x        = 12;
+const paused_button_w        = 62;
+const paused_button_h        = 12;
+const paused_button_pad_y    = 1;
+const paused_button_A_y      = 20;
+const paused_button_B_y      = 35;
+const paused_button_pad_A_x  = 9;
+const paused_button_pad_B_x  = 7;
 
 
 
@@ -68,6 +77,7 @@ function loop() {
 	case GAME_STATE.MENU_SEL_PLAYERS: display_menu_sel_players(); break;
 	case GAME_STATE.TOP_SCORES:       display_top_scores();       break;
 	case GAME_STATE.END_GAME:         display_end_game();         break;
+	case GAME_STATE.PAUSED:           display_game(); display_paused(); break;
 	case GAME_STATE.PLAYING:
 		game_loop();
 		display_game();
@@ -82,9 +92,10 @@ function click(player, x, y) {
 	case GAME_STATE.MENU_MAIN:        click_menu_main       (player, x, y); break;
 	case GAME_STATE.MENU_NUM_PLAYERS: click_menu_num_players(player, x, y); break;
 	case GAME_STATE.MENU_SEL_PLAYERS: click_menu_sel_players(player, x, y); break;
+	case GAME_STATE.PAUSED:           click_menu_paused     (player, x, y); break;
 	case GAME_STATE.TOP_SCORES:       state = GAME_STATE.MENU_MAIN;         break;
 	case GAME_STATE.END_GAME:         state = GAME_STATE.MENU_MAIN;         break;
-	case GAME_STATE.PLAYING: break;
+	case GAME_STATE.PLAYING:          state = GAME_STATE.PAUSED;            break;
 	default: break;
 	}
 }
@@ -149,6 +160,23 @@ function click_menu_sel_players(player, x, y) {
 	}
 	// default
 	state = GAME_STATE.MENU_NUM_PLAYERS;
+}
+
+function click_menu_paused(player, x, y) {
+	// button - continue
+	if (CursorInRange(paused_button_x, paused_button_A_y,
+	paused_button_w, paused_button_h, x, y)) {
+		state = GAME_STATE.PLAYING;
+		return;
+	}
+	// button - end game
+	if (CursorInRange(paused_button_x, paused_button_B_y,
+	paused_button_w, paused_button_h, x, y)) {
+		state = GAME_STATE.MENU_MAIN;
+		player1 = null;
+		player2 = null;
+		return;
+	}
 }
 
 
@@ -263,6 +291,31 @@ function display_top_scores() {
 }
 
 
+
+function display_paused() {
+	// button - continue
+	DrawButton(
+		paused_button_x, paused_button_A_y,
+		paused_button_w, paused_button_h,
+		paused_button_pad_A_x, paused_button_pad_y,
+		"Continue",
+		//font  style    size
+		null, Font.BOLD, 9,
+		// border    fill         highlight   text
+		Color.WHITE, Color.BLACK, Color.GRAY, Color.WHITE
+	);
+	// button - end game
+	DrawButton(
+		paused_button_x, paused_button_B_y,
+		paused_button_w, paused_button_h,
+		paused_button_pad_B_x, paused_button_pad_y,
+		"End Game",
+		//font  style    size
+		null, Font.BOLD, 9,
+		// border    fill         highlight   text
+		Color.WHITE, Color.BLACK, Color.GRAY, Color.WHITE
+	);
+}
 
 function display_end_game() {
 //TODO
