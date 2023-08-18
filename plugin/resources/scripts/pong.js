@@ -67,8 +67,12 @@ function loop() {
 	case GAME_STATE.MENU_NUM_PLAYERS: display_menu_num_players(); break;
 	case GAME_STATE.MENU_SEL_PLAYERS: display_menu_sel_players(); break;
 	case GAME_STATE.TOP_SCORES:       display_top_scores();       break;
-	case GAME_STATE.PLAYING:          game_loop();                break;
 	case GAME_STATE.END_GAME:         display_end_game();         break;
+	case GAME_STATE.PLAYING:
+		game_loop();
+		display_game();
+		display_score();
+		break;
 	default: break;
 	}
 }
@@ -326,6 +330,15 @@ function game_loop() {
 			score_points++;
 		}
 	}
+}
+
+function display_game() {
+	DrawPaddle(             5, paddle_1);
+	DrawPaddle(screen_width-5, paddle_2);
+	DrawBall(ball_x, ball_y);
+}
+
+function display_score() {
 	// score
 	let score_top = "" + score_1 + " - " + score_2;
 	let score_bot = "" + score_points;
@@ -333,9 +346,6 @@ function game_loop() {
 	let bot_left = Math.round( (screen_width - GetTextWidth(score_bot, 8)) * 0.5 );
 	DrawText(score_top, top_left, 0,                null, 0, 8, Color.WHITE, Color.BLACK);
 	DrawText(score_bot, bot_left, screen_height-10, null, 0, 8, Color.WHITE, Color.BLACK);
-	DrawPaddle(             5, paddle_1);
-	DrawPaddle(screen_width-5, paddle_2);
-	DrawBall(ball_x, ball_y);
 }
 
 
