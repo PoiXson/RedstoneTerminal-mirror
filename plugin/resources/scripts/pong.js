@@ -61,10 +61,7 @@ const menu_sel_players_go_w  = 25;
 
 
 function loop() {
-	for (let iy=0; iy<screen_height; iy++) {
-		for (let ix=0; ix<screen_width; ix++)
-			pixels[iy][ix] = Color.BLACK;
-	}
+	ClearPixels();
 	switch (state) {
 	case GAME_STATE.MENU_MAIN:        display_menu_main();        break;
 	case GAME_STATE.MENU_NUM_PLAYERS: display_menu_num_players(); break;
@@ -275,10 +272,6 @@ function display_end_game() {
 
 
 function game_loop() {
-	for (let iy=0; iy<screen_height; iy++) {
-		for (let ix=0; ix<screen_width; ix++)
-			pixels[iy][ix] = Color.BLACK;
-	}
 	if (isNullOrEmpty(player1)) {
 		paddle_1 -= ((paddle_1 - (ball_y/screen_height)) * DEFAULT_PADDLE_SPEED_AI) * (1.0-(ball_x/screen_width));
 	} else {
