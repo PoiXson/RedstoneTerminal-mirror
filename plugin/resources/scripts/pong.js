@@ -279,12 +279,20 @@ function game_loop() {
 		for (let ix=0; ix<screen_width; ix++)
 			pixels[iy][ix] = Color.BLACK;
 	}
-	let cursor_1 = (isNullOrEmpty(player1) ? null : players.get(player1));
-	let cursor_2 = (isNullOrEmpty(player2) ? null : players.get(player2));
-	if (!isNullOrEmpty(cursor_1)) paddle_1 -=  (paddle_1 - (cursor_1.get("cursor_y") / screen_height)) * PLAYER_PADDLE_SPEED;
-	else                          paddle_1 -= ((paddle_1 - (ball_y/screen_height)) * AI_PADDLE_SPEED) * (1.0-(ball_x/screen_width));
-	if (!isNullOrEmpty(cursor_2)) paddle_2 -=  (paddle_2 - (cursor_2.get("cursor_y") / screen_height)) * PLAYER_PADDLE_SPEED;
-	else                          paddle_2 -= ((paddle_2 - (ball_y/screen_height)) * AI_PADDLE_SPEED) * (ball_x/screen_width);
+	if (isNullOrEmpty(player1)) {
+		paddle_1 -= ((paddle_1 - (ball_y/screen_height)) * DEFAULT_PADDLE_SPEED_AI) * (1.0-(ball_x/screen_width));
+	} else {
+		let cursor = players.get(player1);
+		if (!isNullOrEmpty(cursor))
+			paddle_1 -= (paddle_1 - (cursor.get("cursor_y") / screen_height)) * DEFAULT_PADDLE_SPEED_PLAYER;
+	}
+	if (isNullOrEmpty(player2)) {
+		paddle_2 -= ((paddle_2 - (ball_y/screen_height)) * DEFAULT_PADDLE_SPEED_AI) * (ball_x/screen_width);
+	} else {
+		let cursor = players.get(player2);
+		if (!isNullOrEmpty(cursor))
+			paddle_2 -=  (paddle_2 - (cursor.get("cursor_y") / screen_height)) * DEFAULT_PADDLE_SPEED_PLAYER;
+	}
 	if (paddle_1 < 0.0) paddle_1 = 0.0; else
 	if (paddle_1 > 1.0) paddle_1 = 1.0;
 	if (paddle_2 < 0.0) paddle_2 = 0.0; else
