@@ -13,11 +13,11 @@
 
 
 
+const DEFAULT_PADDLE_SPEED_PLAYER = 0.1;
+const DEFAULT_PADDLE_SPEED_AI     = 0.18;
+
 let player1 = null;
 let player2 = null;
-
-const PLAYER_PADDLE_SPEED = 0.1;
-const     AI_PADDLE_SPEED = 0.18;
 
 let score_1 = 0;
 let score_2 = 0;
@@ -28,10 +28,10 @@ let paddle_2 = 0.5;
 let paddle_size = 0;
 let paddle_half = 0;
 let paddle_shrink = 0.99;
-let paddle_angle = -2.4;
+let paddle_angle  = -2.4;
 
-let ball_x = screen_width  * 0.5;
-let ball_y = screen_height * 0.5;
+let ball_x = 0;
+let ball_y = 0;
 let vel_x = 1.6;
 let vel_y = 0.5;
 
@@ -51,7 +51,9 @@ const menu_button_A_y        = 20;
 const menu_button_B_y        = 35;
 const menu_button_w          = 62;
 const menu_button_h          = 12;
-const menu_button_pad_x      =  5;
+const menu_button_pad_A_x    =  5;
+const menu_button_pad_B_x    =  5;
+const menu_button_pad_C_x    =  5;
 const menu_button_pad_y      =  1;
 const menu_num_players_pad_x = 10;
 const menu_sel_players_pad_x =  4;
@@ -72,12 +74,12 @@ const paused_button_pad_B_x  = 7;
 function loop() {
 	ClearPixels();
 	switch (state) {
-	case GAME_STATE.MENU_MAIN:        display_menu_main();        break;
-	case GAME_STATE.MENU_NUM_PLAYERS: display_menu_num_players(); break;
-	case GAME_STATE.MENU_SEL_PLAYERS: display_menu_sel_players(); break;
-	case GAME_STATE.TOP_SCORES:       display_top_scores();       break;
-	case GAME_STATE.END_GAME:         display_end_game();         break;
+	case GAME_STATE.MENU_MAIN:        display_menu_main();              break;
+	case GAME_STATE.MENU_NUM_PLAYERS: display_menu_num_players();       break;
+	case GAME_STATE.MENU_SEL_PLAYERS: display_menu_sel_players();       break;
+	case GAME_STATE.TOP_SCORES:       display_top_scores();             break;
 	case GAME_STATE.PAUSED:           display_game(); display_paused(); break;
+	case GAME_STATE.END_GAME:         display_end_game();               break;
 	case GAME_STATE.PLAYING:
 		game_loop();
 		display_game();
@@ -193,7 +195,7 @@ function display_menu_main() {
 	DrawButton(
 		menu_button_x, menu_button_A_y,
 		menu_button_w, menu_button_h,
-		menu_button_pad_x, menu_button_pad_y,
+		menu_button_pad_A_x, menu_button_pad_y,
 		"New Game",
 		//font  style    size
 		null, Font.BOLD, 9,
@@ -204,7 +206,7 @@ function display_menu_main() {
 	DrawButton(
 		menu_button_x, menu_button_B_y,
 		menu_button_w, menu_button_h,
-		menu_button_pad_x, menu_button_pad_y,
+		menu_button_pad_B_x, menu_button_pad_y,
 		"Top Scores",
 		//font  style    size
 		null, Font.BOLD, 9,
@@ -270,7 +272,7 @@ function display_menu_sel_players() {
 		DrawButton(
 			menu_sel_players_go_x, menu_sel_players_go_y,
 			menu_sel_players_go_w, menu_button_h,
-			menu_button_pad_x, menu_button_pad_y,
+			menu_button_pad_C_x, menu_button_pad_y,
 			"GO",
 			//font  style    size
 			null, Font.BOLD, 9,
