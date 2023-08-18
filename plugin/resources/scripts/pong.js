@@ -104,9 +104,9 @@ function click_menu_num_players(player, x, y) {
 	// button - 1 Player
 	if (CursorInRange(menu_button_x, menu_button_A_y,
 	menu_button_w, menu_button_h, x, y)) {
-		RandomBallDirection();
 		player1 = player.get("name");
 		player2 = null;
+		ResetGameStats();
 		state = GAME_STATE.PLAYING;
 		return;
 	}
@@ -138,7 +138,7 @@ function click_menu_sel_players(player, x, y) {
 	&&  !isNullOrEmpty(player2)) {
 		if (CursorInRange(menu_sel_players_go_x, menu_sel_players_go_y,
 		menu_sel_players_go_w, menu_button_h, x, y)) {
-			RandomBallDirection();
+			ResetGameStats();
 			state = GAME_STATE.PLAYING;
 			return;
 		}
@@ -340,9 +340,16 @@ function game_loop() {
 
 
 
-function RandomBallDirection() {
+function ResetGameStats() {
+	score_1 = 0;
+	score_2 = 0;
+	score_points = 0;
+	ball_x = screen_width  * 0.5;
+	ball_y = screen_height * 0.5;
+	// random ball serve direction
 	if (0 == (Math.round(Math.random() * 9999.0) % 2))
 		vel_x = 0.0 - vel_x;
+	UpdatePaddleSize();
 }
 
 
