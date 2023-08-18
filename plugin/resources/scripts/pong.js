@@ -25,8 +25,8 @@ let score_points = 0;
 
 let paddle_1 = 0.5;
 let paddle_2 = 0.5;
-let paddle_size  = 20;
-let paddle_half  = Math.round(paddle_size * 0.5);
+let paddle_size = 0;
+let paddle_half = 0;
 let paddle_shrink = 0.99;
 let paddle_angle = -2.4;
 
@@ -307,7 +307,7 @@ function game_loop() {
 			vel_x = 0.0 - vel_x;
 			vel_y += ((div_y - paddle_1) / half) * paddle_angle;
 			vel_y = vel_y % 2.0;
-			ShrinkPaddles();
+			UpdatePaddleSize();
 			score_points++;
 		}
 	} else
@@ -321,7 +321,7 @@ function game_loop() {
 			vel_x = 0.0 - vel_x;
 			vel_y += ((div_y - paddle_2) / half) * paddle_angle;
 			vel_y = vel_y % 2.0;
-			ShrinkPaddles();
+			UpdatePaddleSize();
 			score_points++;
 		}
 	}
@@ -346,10 +346,11 @@ function RandomBallDirection() {
 
 
 
-function ShrinkPaddles() {
-	paddle_size *= paddle_shrink;
-	paddle_half  = Math.round(paddle_size * 0.5);
-	if (paddle_half < 1) paddle_half = 1;
+function UpdatePaddleSize() {
+	paddle_size = 20;
+	for (let i=0; i<score_points; i++)
+		paddle_size *= paddle_shrink;
+	paddle_half = Math.round(paddle_size * 0.5);
 }
 
 
