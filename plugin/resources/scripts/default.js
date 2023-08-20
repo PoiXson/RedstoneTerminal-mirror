@@ -6,4 +6,4 @@
  * https://poixson.com/
  */
 
-//#include=pong.js
+//#include=games/pong.js
