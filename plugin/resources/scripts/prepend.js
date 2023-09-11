@@ -29,6 +29,12 @@ function isNullOrEmpty(value) {
 
 
 
+function reboot() {
+	reboot = true;
+}
+
+
+
 function println() {
 	out.println();
 }

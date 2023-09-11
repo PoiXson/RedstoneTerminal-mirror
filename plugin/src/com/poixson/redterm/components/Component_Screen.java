@@ -1,15 +1,19 @@
 package com.poixson.redterm.components;
 
+import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
 import static com.poixson.commonmc.tools.scripting.engine.CraftScript.DEFAULT_PLAYER_DISTANCE;
 import static com.poixson.commonmc.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.commonmc.utils.ScriptUtils.FixClickPosition;
 import static com.poixson.commonmc.utils.ScriptUtils.FixCursorPosition;
 import static com.poixson.commonmc.utils.ScriptUtils.PlayerToHashMap;
+import static com.poixson.redterm.RedTermPlugin.LOG_PREFIX;
 import static com.poixson.utils.GraphicsUtils.LoadImage;
 
 import java.awt.Color;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +28,6 @@ import org.bukkit.util.Vector;
 
 import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.commonmc.tools.mapstore.FreedMapStore;
-import com.poixson.commonmc.tools.scripting.LocalOut;
 import com.poixson.commonmc.tools.scripting.engine.CraftScriptManager;
 import com.poixson.commonmc.tools.scripting.events.ScreenFrameEvent;
 import com.poixson.commonmc.tools.scripting.events.ScreenFrameListener;
@@ -41,40 +44,75 @@ import com.poixson.utils.FileUtils;
 
 
 public class Component_Screen extends Component implements PixelSource {
-	public static final int DEFAULT_FPS = 1;
+	public static final int    DEFAULT_FPS    = 1;
+	public static final String DEFAULT_SCRIPT = "boot.js";
 
 	protected final MapScreen screen;
 	protected final CraftScriptManager script;
 
-	protected final PrintStream out;
-
 
 
 	public Component_Screen(final RedTermPlugin plugin,
-			final Location loc, final BlockFace facing,
-			final String filename)
+			final Location loc, final BlockFace facing)
 			throws FileNotFoundException {
 		super(plugin, loc, facing);
 		final Location loc_screen = this.location.clone()
 				.add(this.direction.getDirection());
 		// load script
 		{
-			final String path_plugin = plugin.getDataFolder().getPath();
-			final String path_local  = path_plugin + "/scripts";
-			final String path_res    = "scripts";
-			final ScriptLoader loader = new ScriptLoader_File(plugin, path_local, path_res, filename);
+			final ScriptLoader loader;
+			final String path_plugin    = plugin.getDataFolder().getPath();
+			final String path_local     = path_plugin + "/scripts";
+			final String path_res       = "scripts";
+			final String path_locations = "/locations";
+//TODO: move this to getLocationScriptFile()
+			final String file_script =
+					String.format(
+						"%s/%s_%dx_%dy_%dz.js",
+						path_locations,
+						loc.getWorld().getName(),
+						loc.getBlockX(),
+						loc.getBlockY(),
+						loc.getBlockZ()
+					);
+//TODO: move this to setBootScript()
+			// create location specific script
+			{
+				final File file = new File(path_local, file_script);
+				if (!file.isFile()) {
+					final File dir = file.getParentFile();
+					try {
+						if (!dir.isDirectory()) {
+							if (dir.mkdirs())
+								LOG.info(String.format("%sCreated directory: %s", LOG_PREFIX, dir.toString()));
+						}
+						if (file.createNewFile()) {
+							LOG.info(String.format("%sCreated new file: %s", LOG_PREFIX, file_script));
+							FileWriter handle = null;
+							try {
+								handle = new FileWriter(file);
+								handle.write("//#include=");
+								handle.write(DEFAULT_SCRIPT);
+								handle.write('\n');
+							} finally {
+								handle.close();
+							}
+						}
+					} catch (IOException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			}
+			loader = new ScriptLoader_File(plugin, path_local, path_res, file_script);
 			try {
 				loader.getSources();
 			} catch (FileNotFoundException e) {
 				throw new RuntimeException(e);
 			}
-			this.out = new PrintStream(new LocalOut(loc));
-			this.script = (new CraftScriptManager())
+			this.script = (new CraftScriptManager(this.plugin, this.location))
 				.setLoader(loader)
 				.setSafeScope(false)
-				.setThreaded(true)
-				.setVariable("out", this.out)
-				.setVariable("plugin", plugin);
+				.setThreaded(true);
 			// load script files
 			this.script.getSources();
 		}

@@ -61,10 +61,7 @@ function CursorInRange(x, y, w, h, cursor_x, cursor_y) {
 
 
 function GetTextWidth(text, size) {
-	return Math.ceil(0.8 * text.length * size);
-}
-function GetTextHeight(size) {
-return 20;
+	return Math.max(1, Math.ceil(0.8 * text.length * size));
 }
 
 function DrawText(text, x, y, font, style, size, color, back_color) {

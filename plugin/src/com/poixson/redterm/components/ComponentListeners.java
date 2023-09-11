@@ -211,11 +211,9 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 			final Component existing = this.plugin.getComponent(loc);
 			if (existing != null) break TYPE_SWITCH;
 //TODO: permissions
-//TODO: how to select the filename?
-final String filename = "default.js";
 			// activate component
 			try {
-				ActivateComponent(this.plugin, loc, filename);
+				ActivateComponent(this.plugin, loc);
 			} catch (FileNotFoundException e) {
 				event.setCancelled(true);
 				e.printStackTrace();

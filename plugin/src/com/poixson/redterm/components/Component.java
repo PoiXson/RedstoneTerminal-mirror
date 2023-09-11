@@ -90,8 +90,8 @@ public abstract class Component implements Closeable {
 
 
 
-	public static Component ActivateComponent(final RedTermPlugin plugin,
-			final Location loc, final String filename)
+	public static Component ActivateComponent(
+			final RedTermPlugin plugin, final Location loc)
 			throws FileNotFoundException {
 		// existing component
 		{
@@ -113,7 +113,7 @@ public abstract class Component implements Closeable {
 				case 1897:   // monitor
 				case 1972: { // arcade - pong
 					final BlockFace facing = RotationToFace(frame.getRotation()).getOppositeFace();
-					return new Component_Screen(plugin, loc, facing, filename);
+					return new Component_Screen(plugin, loc, facing);
 				}
 				default: break ENTITY_LOOP;
 				}
