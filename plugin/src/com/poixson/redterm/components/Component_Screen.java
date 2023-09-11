@@ -26,6 +26,10 @@ import com.poixson.commonmc.pxnCommonPlugin;
 import com.poixson.commonmc.tools.mapstore.FreedMapStore;
 import com.poixson.commonmc.tools.scripting.LocalOut;
 import com.poixson.commonmc.tools.scripting.engine.CraftScriptManager;
+import com.poixson.commonmc.tools.scripting.events.ScreenFrameEvent;
+import com.poixson.commonmc.tools.scripting.events.ScreenFrameListener;
+import com.poixson.commonmc.tools.scripting.events.ScriptLoadedEvent;
+import com.poixson.commonmc.tools.scripting.events.ScriptLoadedListener;
 import com.poixson.commonmc.tools.scripting.loader.ScriptLoader;
 import com.poixson.commonmc.tools.scripting.loader.ScriptLoader_File;
 import com.poixson.commonmc.tools.scripting.screen.MapScreen;
@@ -89,9 +93,9 @@ public class Component_Screen extends Component implements PixelSource {
 					facing,
 					false
 				))
-				.setTickListener(new Runnable() {
+				.register(new ScreenFrameListener() {
 					@Override
-					public void run() {
+					public void onFrame(final ScreenFrameEvent event) {
 						Component_Screen.this.doImports();
 						Component_Screen.this.script.tick();
 					}
@@ -139,6 +143,19 @@ public class Component_Screen extends Component implements PixelSource {
 				}
 				this.script.setVariable("pixels", pixels);
 			}
+			// script load listener
+			this.script.register(
+				new ScriptLoadedListener() {
+					@Override
+					public void onLoaded(final ScriptLoadedEvent event) {
+						if (event.manager.hasFlag("fps")) {
+							final int fps = event.manager.getFlagInt("fps");
+							Component_Screen.this.screen.setFPS(fps);
+						}
+					}
+				}
+			);
+			// start the script
 			this.script.start();
 		}
 		plugin.register(this);
