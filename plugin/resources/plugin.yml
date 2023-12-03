@@ -3,7 +3,7 @@ main: com.poixson.redterm.RedTermPlugin
 version: ${project.version}
 api-version: ${spigot-short-version}
 depend:
-  - pxnCommonPluginMC
+  - pxnPluginLib
 softdepend:
   - Multiverse-Core
 authors: [ lorenzop ]
