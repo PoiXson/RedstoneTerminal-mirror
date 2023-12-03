@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.poixson.commonmc.tools.commands.pxnCommand;
+import com.poixson.pluginlib.tools.commands.pxnCommand;
 import com.poixson.redterm.RedTermPlugin;
 
 

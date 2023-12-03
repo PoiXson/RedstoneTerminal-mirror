@@ -12,7 +12,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 
-import com.poixson.commonmc.tools.plugin.xJavaPlugin;
+import com.poixson.pluginlib.tools.plugin.xJavaPlugin;
 import com.poixson.redterm.commands.Commands;
 import com.poixson.redterm.components.Component;
 import com.poixson.redterm.components.ComponentListeners;

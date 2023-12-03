@@ -1,11 +1,11 @@
 package com.poixson.redterm.components;
 
-import static com.poixson.commonmc.tools.plugin.xJavaPlugin.LOG;
-import static com.poixson.commonmc.tools.scripting.engine.CraftScript.DEFAULT_PLAYER_DISTANCE;
-import static com.poixson.commonmc.utils.BukkitUtils.EqualsLocation;
-import static com.poixson.commonmc.utils.ScriptUtils.FixClickPosition;
-import static com.poixson.commonmc.utils.ScriptUtils.FixCursorPosition;
-import static com.poixson.commonmc.utils.ScriptUtils.PlayerToHashMap;
+import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
+import static com.poixson.pluginlib.tools.scripting.engine.CraftScript.DEFAULT_PLAYER_DISTANCE;
+import static com.poixson.pluginlib.utils.BukkitUtils.EqualsLocation;
+import static com.poixson.pluginlib.utils.ScriptUtils.FixClickPosition;
+import static com.poixson.pluginlib.utils.ScriptUtils.FixCursorPosition;
+import static com.poixson.pluginlib.utils.ScriptUtils.PlayerToHashMap;
 import static com.poixson.redterm.RedTermPlugin.LOG_PREFIX;
 import static com.poixson.utils.GraphicsUtils.LoadImage;
 
@@ -26,17 +26,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
-import com.poixson.commonmc.pxnCommonPlugin;
-import com.poixson.commonmc.tools.mapstore.FreedMapStore;
-import com.poixson.commonmc.tools.scripting.engine.CraftScriptManager;
-import com.poixson.commonmc.tools.scripting.events.ScreenFrameEvent;
-import com.poixson.commonmc.tools.scripting.events.ScreenFrameListener;
-import com.poixson.commonmc.tools.scripting.events.ScriptLoadedEvent;
-import com.poixson.commonmc.tools.scripting.events.ScriptLoadedListener;
-import com.poixson.commonmc.tools.scripting.loader.ScriptLoader;
-import com.poixson.commonmc.tools.scripting.loader.ScriptLoader_File;
-import com.poixson.commonmc.tools.scripting.screen.MapScreen;
-import com.poixson.commonmc.tools.scripting.screen.PixelSource;
+import com.poixson.pluginlib.pxnPluginLib;
+import com.poixson.pluginlib.tools.mapstore.FreedMapStore;
+import com.poixson.pluginlib.tools.scripting.engine.CraftScript_Managed;
+import com.poixson.pluginlib.tools.scripting.events.ScreenFrameEvent;
+import com.poixson.pluginlib.tools.scripting.events.ScreenFrameListener;
+import com.poixson.pluginlib.tools.scripting.events.ScriptLoadedEvent;
+import com.poixson.pluginlib.tools.scripting.events.ScriptLoadedListener;
+import com.poixson.pluginlib.tools.scripting.loader.ScriptLoader;
+import com.poixson.pluginlib.tools.scripting.loader.ScriptLoader_File;
+import com.poixson.pluginlib.tools.scripting.screen.MapScreen;
+import com.poixson.pluginlib.tools.scripting.screen.PixelSource;
 import com.poixson.redterm.RedTermPlugin;
 import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;

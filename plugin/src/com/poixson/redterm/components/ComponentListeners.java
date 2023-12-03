@@ -1,7 +1,7 @@
 package com.poixson.redterm.components;
 
-import static com.poixson.commonmc.utils.ItemUtils.GetCustomModel;
-import static com.poixson.commonmc.utils.LocationUtils.YawToFace;
+import static com.poixson.pluginlib.utils.ItemUtils.GetCustomModel;
+import static com.poixson.pluginlib.utils.LocationUtils.YawToFace;
 import static com.poixson.redterm.RedTermPlugin.CHAT_PREFIX;
 import static com.poixson.redterm.components.Component.ActivateComponent;
 import static com.poixson.redterm.components.Component.GetEntityFilter;
@@ -25,7 +25,7 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.poixson.commonmc.tools.plugin.xListener;
+import com.poixson.pluginlib.tools.plugin.xListener;
 import com.poixson.redterm.RedTermPlugin;
 
 

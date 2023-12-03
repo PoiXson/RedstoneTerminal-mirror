@@ -2,7 +2,7 @@ package com.poixson.redterm.commands;
 
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.poixson.commonmc.tools.commands.pxnCommandsHandler;
+import com.poixson.pluginlib.tools.commands.pxnCommandsHandler;
 import com.poixson.redterm.RedTermPlugin;
 
 

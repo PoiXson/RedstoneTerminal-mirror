@@ -2,7 +2,7 @@ package com.poixson.redterm.commands;
 
 import org.bukkit.command.CommandSender;
 
-import com.poixson.commonmc.tools.commands.pxnCommand;
+import com.poixson.pluginlib.tools.commands.pxnCommand;
 import com.poixson.redterm.RedTermPlugin;
 
 
