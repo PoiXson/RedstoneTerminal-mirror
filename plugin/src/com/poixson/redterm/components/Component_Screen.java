@@ -50,10 +50,10 @@ public class Component_Screen extends Component implements Runnable, PixelSource
 
 
 	public Component_Screen(final RedTermPlugin plugin,
-			final Location loc, final BlockFace facing)
+			final Location location, final BlockFace facing,
 			final int screens_width, final int screens_height)
 			throws FileNotFoundException {
-		super(plugin, loc, facing);
+		super(plugin, location, facing);
 		this.screens_width  = screens_width;
 		this.screens_height = screens_height;
 		// load script
@@ -62,17 +62,16 @@ public class Component_Screen extends Component implements Runnable, PixelSource
 			final String path_plugin    = plugin.getDataFolder().getPath();
 			final String path_local     = path_plugin + "/scripts";
 			final String path_res       = "scripts";
-//TODO: move this to getLocationScriptFile()
-			final String file_script =
-					String.format(
-						"%s/%s_%dx_%dy_%dz.js",
-						path_locations,
-						loc.getWorld().getName(),
-						loc.getBlockX(),
-						loc.getBlockY(),
-						loc.getBlockZ()
-					);
 			final String path_locations = "locations";
+//TODO: move this to getLocationScriptFile() ?
+			final String filename =
+				String.format(
+					"%s/%s_%dx_%dy_%dz.js",
+					path_locations,
+					location.getWorld().getName(),
+					location.getBlockX(),
+					location.getBlockY(),
+					location.getBlockZ()
 				);
 //TODO: move this to setBootScript()
 			// create location specific script

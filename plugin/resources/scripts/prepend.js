@@ -39,18 +39,12 @@ function println() {
 	out.println();
 }
 function print(line) {
-	if (isNullOrEmpty(line)) {
-		println();
-	} else {
-		out.println(line);
-	}
+	if (isNullOrEmpty(line)) println();
+	else                 out.println(line);
 }
 function error(line) {
-	if (isNullOrEmpty(line)) {
-		println();
-	} else {
-		out.println("ERROR: " + line);
-	}
+	if (isNullOrEmpty(line)) println();
+	else                 out.println("ERROR: " + line);
 }
 
 

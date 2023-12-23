@@ -87,47 +87,25 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 			MODEL_SWITCH:
 			switch (model) {
 			// altair
-			case 880: {
-				PlaceComputerEntity(loc_block, item, facing, false, false);
-//TODO
-//				player.playSound(loc_block, Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
-				break MODEL_SWITCH;
-			}
+			case 880:  PlaceComputerEntity(item, loc_block, facing, false, false); break MODEL_SWITCH;
 			// crt monitor
-			case 1897: {
-				PlaceComputerEntity(loc_block, item, facing, true, false);
-//TODO
-//				final Component component = ActivateComponent(this.plugin, loc_block);
-//				if (component != null)
-//					player.playSound(loc_block, Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
-				break MODEL_SWITCH;
-			}
+			case 1897: PlaceComputerEntity(item, loc_block, facing, true,  false); break MODEL_SWITCH;
 			// keyboard
-			case 104: {
-				PlaceComputerEntity(loc_block, item, facing, false, true);
-				break MODEL_SWITCH;
-			}
+			case 104:  PlaceComputerEntity(item, loc_block, facing, false, true ); break MODEL_SWITCH;
 			// keypad
-			case 1988: {
-				PlaceComputerEntity(loc_block, item, facing, false, true);
-				break MODEL_SWITCH;
-			}
+			case 1988: PlaceComputerEntity(item, loc_block, facing, false, true ); break MODEL_SWITCH;
 			// outlet
-			case 11: {
-				PlaceComputerEntity(loc_block, item, facing, false, true);
-				break MODEL_SWITCH;
-			}
+			case 11:   PlaceComputerEntity(item, loc_block, facing, false, true ); break MODEL_SWITCH;
 			// arcade - pong
-			case 1972: {
-				PlaceComputerEntity(loc_block, item, facing, true, false);
-				break MODEL_SWITCH;
-			}
+			case 1972: PlaceComputerEntity(item, loc_block, facing, true,  false); break MODEL_SWITCH;
 			default: break MODEL_SWITCH;
 			}
 		}
 		default: break MATERIAL_SWITCH;
 		}
 	}
+
+
 
 	// break component
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)

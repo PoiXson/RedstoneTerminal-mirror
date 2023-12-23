@@ -77,8 +77,8 @@ function DrawText(text, x, y, font, style, size, color, back_color) {
 	graphics.setColor(color);
 	graphics.setBackground(isNullOrEmpty(back_color) ? Color.BLACK : back_color);
 	graphics.drawString(text, 0, size);
-	if (isNullOrEmpty(back_color)) ScriptUtils.DrawImagePixels_ColorMask(pixels, x, y, img, Color.BLACK);
-	else                           ScriptUtils.DrawImagePixels_ColorMask(pixels, x, y, img, back_color );
+	if (isNullOrEmpty(back_color)) BukkitUtils.DrawImagePixels_ColorMask(pixels, x, y, img, Color.BLACK);
+	else                           BukkitUtils.DrawImagePixels_ColorMask(pixels, x, y, img, back_color );
 	graphics.dispose();
 }
 

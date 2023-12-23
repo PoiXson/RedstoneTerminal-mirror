@@ -30,21 +30,23 @@ public abstract class Component implements Closeable {
 	protected final RedTermPlugin plugin;
 
 	public final Location location;
-	public final BlockFace direction;
+	public final BlockFace facing;
 
 
 
 	public Component(final RedTermPlugin plugin,
-			final Location loc, final BlockFace dir) {
+			final Location location, final BlockFace facing) {
 		this.plugin    = plugin;
-		this.location  = loc;
-		this.direction = dir;
+		this.location  = location;
+		this.facing    = facing;
 	}
 
 
 
 	@Override
 	public abstract void close();
+
+
 
 	public abstract void click(final Player player, final Vector vec);
 
@@ -87,19 +89,19 @@ public abstract class Component implements Closeable {
 
 
 	public static Component ActivateComponent(
-			final RedTermPlugin plugin, final Location loc)
+			final RedTermPlugin plugin, final Location location)
 			throws FileNotFoundException {
 		// existing component
 		{
-			final Component component = plugin.getComponent(loc);
+			final Component component = plugin.getComponent(location);
 			if (component != null)
 				return null;
 		}
 		// activate component
-		final World world = loc.getWorld();
+		final World world = location.getWorld();
 		final Predicate<Entity> filter = GetEntityFilter();
 		ENTITY_LOOP:
-		for (final Entity entity : world.getNearbyEntities(loc, 0.5, 0.5, 0.5, filter)) {
+		for (final Entity entity : world.getNearbyEntities(location, 0.5, 0.5, 0.5, filter)) {
 			final ItemFrame frame = (ItemFrame) entity;
 			final ItemStack item = frame.getItem();
 			final ItemMeta meta = item.getItemMeta();
@@ -109,7 +111,7 @@ public abstract class Component implements Closeable {
 				case 1897:   // monitor
 				case 1972: { // arcade - pong
 					final BlockFace facing = RotationToFace(frame.getRotation()).getOppositeFace();
-					return new Component_Screen(plugin, loc, facing);
+					return new Component_Screen(plugin, location, facing, 1, 1);
 				}
 				default: break ENTITY_LOOP;
 				}
@@ -117,9 +119,6 @@ public abstract class Component implements Closeable {
 		}
 		return null;
 	}
-
-
-
 	public static Predicate<Entity> GetEntityFilter() {
 		return new Predicate<Entity>() {
 			@Override
@@ -164,27 +163,8 @@ public abstract class Component implements Closeable {
 				case ITEM_FRAME:
 				case GLOW_ITEM_FRAME: {
 					final ItemStack item = ((ItemFrame)entity).getItem();
-					MATERIAL_SWITCH:
-					switch (item.getType()) {
-					case FILLED_MAP: {
+					if (Material.FILLED_MAP.equals(item.getType()))
 						return true;
-//TODO: use this?
-//						final ItemMeta meta = item.getItemMeta();
-//						if (meta.hasCustomModelData()) {
-//							final int model = meta.getCustomModelData();
-//System.out.println("G " + model);
-//							MODEL_SWITCH:
-//							switch (model) {
-//TODO: more types?
-//							case 1897: return true; // monitor
-//							case 880:  return true; // altair
-//							default: break MODEL_SWITCH;
-//							}
-//							break MATERIAL_SWITCH;
-//						}
-					}
-					default: break MATERIAL_SWITCH;
-					} // end MATERIAL_SWITCH
 					break TYPE_SWITCH;
 				}
 				default: break TYPE_SWITCH;
