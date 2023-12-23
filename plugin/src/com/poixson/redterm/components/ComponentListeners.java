@@ -15,14 +15,18 @@ import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import com.poixson.redterm.RedTermPlugin;
@@ -128,14 +132,34 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 	// break component
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onBlockBreak(final BlockBreakEvent event) {
+		final Player player = event.getPlayer();
 		final Block block = event.getBlock();
 		TYPE_SWITCH:
 		switch (block.getType()) {
 		case BARRIER: {
 			final Location loc = block.getLocation();
 			final Component component = this.plugin.getComponent(loc);
-			if (component != null) {
-				final Player player = event.getPlayer();
+			if (component == null) {
+				//ENTITY_LOOP:
+				for (final Entity entity : loc.getWorld().getNearbyEntities(loc, 1.0, 1.0, 1.0)) {
+					final EntityType type = entity.getType();
+					ENTITY_TYPE_SWITCH:
+					switch (type) {
+					case ITEM_FRAME:
+					case GLOW_ITEM_FRAME: {
+						if (!player.hasPermission("redterm.destroy.monitor")) {
+							player.sendMessage(CHAT_PREFIX + "You don't have permission to break this.");
+							event.setCancelled(true);
+							break ENTITY_TYPE_SWITCH;
+						}
+						((ItemFrame)entity).setItem(null);
+						entity.remove();
+						break ENTITY_TYPE_SWITCH;
+					}
+					default: break ENTITY_TYPE_SWITCH;
+					}
+				} // end ENTITY_LOOP
+			} else {
 				// crt monitor
 				if (component instanceof Component_Screen) {
 					if (!player.hasPermission("redterm.destroy.monitor")) {
@@ -156,6 +180,37 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 			break TYPE_SWITCH;
 		}
 		default: break TYPE_SWITCH;
+		}
+	}
+
+
+
+	// activate component
+	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
+	public void onBlockInteract(final PlayerInteractEvent event) {
+		if (!EquipmentSlot.HAND.equals(event.getHand()))         return;
+		if (!Action.RIGHT_CLICK_BLOCK.equals(event.getAction())) return;
+		{
+			final Block block = event.getClickedBlock();
+			TYPE_SWITCH:
+			switch (block.getType()) {
+			case BARRIER: {
+				final Location loc = block.getLocation();
+				final Component existing = this.plugin.getComponent(loc);
+				if (existing == null) {
+//TODO: permissions
+					// activate component
+					try {
+						ActivateComponent(this.plugin, loc);
+					} catch (FileNotFoundException e) {
+						event.setCancelled(true);
+						e.printStackTrace();
+					}
+				}
+				break TYPE_SWITCH;
+			} // end barrier
+			default: break TYPE_SWITCH;
+			}
 		}
 	}
 
@@ -195,36 +250,6 @@ public class ComponentListeners extends xListener<RedTermPlugin> {
 			break ENTITY_SWITCH;
 		}
 		default: break ENTITY_SWITCH;
-		}
-	}
-
-
-
-	// activate component
-	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
-	public void onBlockInteract(final PlayerInteractEvent event) {
-		final Block block = event.getClickedBlock();
-		TYPE_SWITCH:
-		switch (block.getType()) {
-		case BARRIER: {
-			final Location loc = block.getLocation();
-			final Component existing = this.plugin.getComponent(loc);
-			if (existing != null) break TYPE_SWITCH;
-//TODO: permissions
-			// activate component
-			try {
-				ActivateComponent(this.plugin, loc);
-			} catch (FileNotFoundException e) {
-				event.setCancelled(true);
-				e.printStackTrace();
-			}
-//TODO: finish or remove this
-//			final Component component = ActivateComponent(this.plugin, loc, filename);
-//			if (component != null)
-//				player.playSound(loc, Sound.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 1, 1);
-			break TYPE_SWITCH;
-		} // end barrier
-		default: break TYPE_SWITCH;
 		}
 	}
 

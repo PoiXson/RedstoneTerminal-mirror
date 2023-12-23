@@ -50,8 +50,21 @@ public abstract class Component implements Closeable {
 
 
 
-	public static void PlaceComputerEntity(final Location loc,
-			final ItemStack item, final BlockFace facing,
+	public Location getLocation() {
+		return this.location;
+	}
+	public BlockFace getFacing() {
+		return this.facing;
+	}
+	public boolean isLocation(final Location loc) {
+		if (loc == null) return false;
+		return EqualsLocation(loc, this.location);
+	}
+
+
+
+	public static void PlaceComputerEntity(final ItemStack item,
+			final Location loc, final BlockFace facing,
 			final boolean isSolid, final boolean isWall) {
 		final Block block = loc.getBlock();
 		if (isSolid) block.setType(Material.BARRIER);
@@ -69,23 +82,6 @@ public abstract class Component implements Closeable {
 		frame.setPersistent(true);
 		frame.setInvulnerable(true);
 		frame.setVisible(false);
-	}
-
-
-
-	public Location getLocation() {
-		return this.location;
-	}
-	public BlockFace getDirection() {
-		return this.direction;
-	}
-	public boolean isLocation(final Location loc) {
-		// model
-		if (this.location != null) {
-			if (EqualsLocation(loc, this.location))
-				return true;
-		}
-		return false;
 	}
 
 

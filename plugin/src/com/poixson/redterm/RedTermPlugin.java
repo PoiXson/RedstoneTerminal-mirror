@@ -1,9 +1,7 @@
 package com.poixson.redterm;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
-import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -21,21 +19,21 @@ import com.poixson.tools.xJavaPlugin;
 public class RedTermPlugin extends xJavaPlugin {
 	@Override public int getSpigotPluginID() { return 111236; }
 	@Override public int getBStatsID() {       return 19096;  }
+
 	public static final String LOG_PREFIX  = "[RedTerm] ";
 	public static final String CHAT_PREFIX = ChatColor.AQUA + LOG_PREFIX + ChatColor.WHITE;
 
 	protected final CopyOnWriteArraySet<Component> components = new CopyOnWriteArraySet<Component>();
+	protected final ComponentListeners listener_component;
 
-	// commands
-	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
-
-	// listeners
-	protected final AtomicReference<ComponentListeners> listeners = new AtomicReference<ComponentListeners>(null);
+	protected final Commands commands;
 
 
 
 	public RedTermPlugin() {
 		super(RedTermPlugin.class);
+		this.listener_component = new ComponentListeners(this);
+		this.commands = new Commands(this);
 	}
 
 
@@ -43,66 +41,39 @@ public class RedTermPlugin extends xJavaPlugin {
 	@Override
 	public void onEnable() {
 		super.onEnable();
-		// component listeners
-		{
-			final ComponentListeners listener = new ComponentListeners(this);
-			final ComponentListeners previous = this.listeners.getAndSet(listener);
-			if (previous != null)
-				previous.unregister();
-			listener.register();
-		}
-		// commands
-		{
-			final Commands cmds = new Commands(this);
-			final Commands previous = this.commands.getAndSet(cmds);
-			if (previous != null)
-				previous.unregister();
-			cmds.register();
-		}
+		this.listener_component.register();
+		this.commands.register();
 	}
-
 	@Override
 	public void onDisable() {
 		super.onDisable();
-		// commands
-		{
-			final Commands commands = this.commands.getAndSet(null);
-			if (commands != null)
-				commands.unregister();
-		}
-		// component listeners
-		{
-			final ComponentListeners listener = this.listeners.getAndSet(null);
-			if (listener != null)
-				listener.unregister();
-		}
-		// components
-		{
-			final LinkedList<Component> removing = new LinkedList<Component>();
-			final Iterator<Component> it = this.components.iterator();
-			while (it.hasNext()) {
-				final Component comp = it.next();
-				comp.close();
-				removing.add(comp);
-			}
-			for (final Component comp : removing)
-				this.components.remove(comp);
+		this.listener_component.unregister();
+		this.commands.unregister();
+		final Iterator<Component> it = this.components.iterator();
+		while (it.hasNext()) {
+			final Component component = it.next();
+			component.close();
+			it.remove();
 		}
 	}
 
 
 
 	// -------------------------------------------------------------------------------
+	// components
 
 
 
 	public void register(final Component component) {
 		if (component == null) throw new NullPointerException();
 		this.components.add(component);
+		this.log().info("New component: "+component.getLocation().toString());
 	}
 	public boolean unregister(final Component component) {
 		if (component == null) throw new NullPointerException();
-		return this.components.remove(component);
+		final boolean result = this.components.remove(component);
+		this.log().info("Removed component: "+component.getLocation().toString());
+		return result;
 	}
 
 
@@ -163,13 +134,6 @@ public class RedTermPlugin extends xJavaPlugin {
 		}
 		return nearest;
 	}
-//	public Component_Monitor getMonitorByScreen(final Location loc) {
-//		for (final Component_Monitor monitor : this.monitors) {
-//			if (EqualsLocation(monitor.getScreenLocation(), loc))
-//				return monitor;
-//		}
-//		return null;
-//	}
 
 
 
