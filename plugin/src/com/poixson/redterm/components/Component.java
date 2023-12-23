@@ -1,8 +1,8 @@
 package com.poixson.redterm.components;
 
-import static com.poixson.pluginlib.utils.BukkitUtils.EqualsLocation;
-import static com.poixson.pluginlib.utils.LocationUtils.FaceToRotation;
-import static com.poixson.pluginlib.utils.LocationUtils.RotationToFace;
+import static com.poixson.utils.BukkitUtils.EqualsLocation;
+import static com.poixson.utils.LocationUtils.FaceToRotation;
+import static com.poixson.utils.LocationUtils.RotationToFace;
 
 import java.io.Closeable;
 import java.io.FileNotFoundException;

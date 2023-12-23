@@ -2,8 +2,8 @@ package com.poixson.redterm.commands;
 
 import org.bukkit.command.CommandSender;
 
-import com.poixson.pluginlib.tools.commands.pxnCommand;
 import com.poixson.redterm.RedTermPlugin;
+import com.poixson.tools.commands.pxnCommand;
 
 
 public class Command_Reboot extends pxnCommand<RedTermPlugin> {

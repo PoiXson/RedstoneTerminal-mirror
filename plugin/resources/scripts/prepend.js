@@ -16,7 +16,7 @@ importClass(Packages.java.awt.image.BufferedImage);
 
 importClass(Packages.com.poixson.utils.FileUtils);
 importClass(Packages.com.poixson.utils.GraphicsUtils);
-importClass(Packages.com.poixson.pluginlib.utils.ScriptUtils);
+importClass(Packages.com.poixson.utils.BukkitUtils);
 
 
 

@@ -1,13 +1,12 @@
 package com.poixson.redterm.components;
 
-import static com.poixson.pluginlib.tools.plugin.xJavaPlugin.LOG;
-import static com.poixson.pluginlib.tools.scripting.engine.CraftScript.DEFAULT_PLAYER_DISTANCE;
-import static com.poixson.pluginlib.utils.BukkitUtils.EqualsLocation;
-import static com.poixson.pluginlib.utils.ScriptUtils.FixClickPosition;
-import static com.poixson.pluginlib.utils.ScriptUtils.FixCursorPosition;
-import static com.poixson.pluginlib.utils.ScriptUtils.PlayerToHashMap;
 import static com.poixson.redterm.RedTermPlugin.LOG_PREFIX;
-import static com.poixson.utils.GraphicsUtils.LoadImage;
+import static com.poixson.redterm.screen.MapScreen.MAP_SIZE;
+import static com.poixson.utils.BukkitUtils.EqualsLocation;
+import static com.poixson.utils.CraftScriptUtils.FixClickPosition;
+import static com.poixson.utils.CraftScriptUtils.FixCursorPosition;
+import static com.poixson.utils.CraftScriptUtils.PlayerToHashMap;
+import static com.poixson.utils.Utils.SafeClose;
 
 import java.awt.Color;
 import java.io.File;
@@ -26,21 +25,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
-import com.poixson.pluginlib.pxnPluginLib;
-import com.poixson.pluginlib.tools.mapstore.FreedMapStore;
-import com.poixson.pluginlib.tools.scripting.engine.CraftScript_Managed;
-import com.poixson.pluginlib.tools.scripting.events.ScreenFrameEvent;
-import com.poixson.pluginlib.tools.scripting.events.ScreenFrameListener;
-import com.poixson.pluginlib.tools.scripting.events.ScriptLoadedEvent;
-import com.poixson.pluginlib.tools.scripting.events.ScriptLoadedListener;
-import com.poixson.pluginlib.tools.scripting.loader.ScriptLoader;
-import com.poixson.pluginlib.tools.scripting.loader.ScriptLoader_File;
-import com.poixson.pluginlib.tools.scripting.screen.MapScreen;
-import com.poixson.pluginlib.tools.scripting.screen.PixelSource;
 import com.poixson.redterm.RedTermPlugin;
+import com.poixson.redterm.screen.MapScreen;
+import com.poixson.redterm.screen.PixelSource;
+import com.poixson.scripting.xScriptThreadSafe;
+import com.poixson.scripting.loader.xScriptLoader_File;
+import com.poixson.tools.LocalPlayerOut;
 import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;
-import com.poixson.utils.FileUtils;
 
 
 public class Component_Screen extends Component implements PixelSource {

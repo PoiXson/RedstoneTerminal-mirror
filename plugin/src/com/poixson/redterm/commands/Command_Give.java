@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.poixson.pluginlib.tools.commands.pxnCommand;
 import com.poixson.redterm.RedTermPlugin;
+import com.poixson.tools.commands.pxnCommand;
 
 
 public class Command_Give extends pxnCommand<RedTermPlugin> {

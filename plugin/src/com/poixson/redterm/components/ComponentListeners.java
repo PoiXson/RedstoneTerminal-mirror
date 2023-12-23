@@ -1,12 +1,12 @@
 package com.poixson.redterm.components;
 
-import static com.poixson.pluginlib.utils.ItemUtils.GetCustomModel;
-import static com.poixson.pluginlib.utils.LocationUtils.YawToFace;
 import static com.poixson.redterm.RedTermPlugin.CHAT_PREFIX;
 import static com.poixson.redterm.components.Component.ActivateComponent;
 import static com.poixson.redterm.components.Component.GetEntityFilter;
 import static com.poixson.redterm.components.Component.GetScreenFilter;
 import static com.poixson.redterm.components.Component.PlaceComputerEntity;
+import static com.poixson.utils.ItemUtils.GetCustomModel;
+import static com.poixson.utils.LocationUtils.YawToFace;
 
 import java.io.FileNotFoundException;
 
@@ -25,8 +25,8 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.poixson.pluginlib.tools.plugin.xListener;
 import com.poixson.redterm.RedTermPlugin;
+import com.poixson.tools.events.xListener;
 
 
 public class ComponentListeners extends xListener<RedTermPlugin> {
