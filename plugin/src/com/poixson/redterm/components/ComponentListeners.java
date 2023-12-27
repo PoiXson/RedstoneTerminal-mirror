@@ -5,7 +5,7 @@ import static com.poixson.redterm.components.Component.ActivateComponent;
 import static com.poixson.redterm.components.Component.GetEntityFilter;
 import static com.poixson.redterm.components.Component.GetScreenFilter;
 import static com.poixson.redterm.components.Component.PlaceComputerEntity;
-import static com.poixson.utils.ItemUtils.GetCustomModel;
+import static com.poixson.utils.BlockUtils.GetCustomModel;
 import static com.poixson.utils.LocationUtils.YawToFace;
 
 import java.io.FileNotFoundException;
