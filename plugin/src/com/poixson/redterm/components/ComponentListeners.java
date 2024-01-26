@@ -33,12 +33,15 @@ import com.poixson.redterm.RedTermPlugin;
 import com.poixson.tools.events.xListener;
 
 
-public class ComponentListeners extends xListener<RedTermPlugin> {
+public class ComponentListeners extends xListener {
+
+	protected final RedTermPlugin plugin;
 
 
 
 	public ComponentListeners(final RedTermPlugin plugin) {
 		super(plugin);
+		this.plugin = plugin;
 	}
 
 
