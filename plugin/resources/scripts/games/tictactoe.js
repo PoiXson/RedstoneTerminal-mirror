@@ -7,6 +7,8 @@
  */
 
 //#fps=2
+//#include=gui.js
+//#import=cursors
 //#export=pixels
 
 
