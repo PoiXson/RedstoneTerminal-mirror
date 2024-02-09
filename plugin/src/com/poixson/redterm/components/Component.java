@@ -98,22 +98,24 @@ public abstract class Component implements Closeable {
 				return null;
 		}
 		// activate component
-		final World world = location.getWorld();
-		final Predicate<Entity> filter = GetEntityFilter();
-		ENTITY_LOOP:
-		for (final Entity entity : world.getNearbyEntities(location, 0.5, 0.5, 0.5, filter)) {
-			final ItemFrame frame = (ItemFrame) entity;
-			final ItemStack item = frame.getItem();
-			final ItemMeta meta = item.getItemMeta();
-			if (meta.hasCustomModelData()) {
-				final int model = meta.getCustomModelData();
-				switch (model) {
-				case 1897:   // monitor
-				case 1972: { // arcade - pong
-					final BlockFace facing = RotationToFace(frame.getRotation()).getOppositeFace();
-					return new Component_Screen(plugin, location, facing, 1, 1);
-				}
-				default: break ENTITY_LOOP;
+		{
+			final World world = location.getWorld();
+			final Predicate<Entity> filter = GetEntityFilter();
+			ENTITY_LOOP:
+			for (final Entity entity : world.getNearbyEntities(location, 0.5, 0.5, 0.5, filter)) {
+				final ItemFrame frame = (ItemFrame) entity;
+				final ItemStack item = frame.getItem();
+				final ItemMeta meta = item.getItemMeta();
+				if (meta.hasCustomModelData()) {
+					final int model = meta.getCustomModelData();
+					switch (model) {
+					case 1897:   // monitor
+					case 1972: { // arcade - pong
+						final BlockFace facing = RotationToFace(frame.getRotation()).getOppositeFace();
+						return new Component_Screen(plugin, location, facing, 1, 1);
+					}
+					default: break ENTITY_LOOP;
+					}
 				}
 			}
 		}
