@@ -43,6 +43,7 @@ public class RedTermPlugin extends xJavaPlugin {
 		super.onEnable();
 		this.listener_component.register();
 		this.commands.register();
+		this.saveConfigs();
 	}
 	@Override
 	public void onDisable() {
