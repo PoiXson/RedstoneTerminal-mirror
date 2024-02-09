@@ -24,7 +24,7 @@ function DrawButton(x, y, w, h, pad_x, pad_y, text, font, style, size,
 function ClearPixels() {
 	for (let iy=0; iy<screen_height; iy++) {
 		for (let ix=0; ix<screen_width; ix++)
-			pixels[iy][ix] = Color.BLACK;
+			pixels.set(ix, iy, Color.BLACK);
 	}
 }
 
@@ -32,7 +32,7 @@ function SetPixel(x, y, color) {
 	if (x < 0 || x >= screen_width
 	||  y < 0 || y >= screen_height)
 		return;
-	pixels[y][x] = color;
+	pixels.set(x, y, color);
 }
 
 

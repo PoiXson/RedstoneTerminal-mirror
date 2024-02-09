@@ -434,7 +434,7 @@ function DrawPaddle(x, pos) {
 	for (let iy=0-paddle_half; iy<paddle_half; iy++) {
 		yy = iy+y;
 		if (yy >= 0 && yy < screen_height)
-			pixels[yy][x] = Color.WHITE;
+			pixels.set(x, yy, Color.WHITE);
 	}
 }
 
@@ -445,5 +445,5 @@ function DrawBall(x, y) {
 	if (xx >= screen_width)  xx = screen_width  - 1;
 	if (yy < 0.0) yy = 0.0; else
 	if (yy >= screen_height) yy = screen_height - 1;
-	pixels[yy][xx] = Color.WHITE;
+	pixels.set(xx, yy, Color.WHITE);
 }

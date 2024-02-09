@@ -80,7 +80,7 @@ function loop() {
 	}
 	for (let iy=0; iy<screen_height; iy++) {
 		for (let ix=0; ix<screen_width; ix++)
-			pixels[iy][ix] = (gridA[iy][ix] ? Color.WHITE : Color.BLACK);
+			pixels.set(ix, iy, (gridA[iy][ix] ? Color.WHITE : Color.BLACK));
 	}
 }
 
