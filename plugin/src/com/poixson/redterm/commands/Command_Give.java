@@ -44,6 +44,7 @@ public class Command_Give extends pxnCommand<RedTermPlugin> {
 		case "cpu":
 		case "processor": if (player.hasPermission("redterm.give.altair")) has_perm = true; break PERMISSION_SWITCH;
 		// crt monitor
+		case "crt":
 		case "mon":
 		case "monitor": if (player.hasPermission("redterm.give.monitor")) has_perm = true; break PERMISSION_SWITCH;
 		// keyboard
@@ -57,6 +58,7 @@ public class Command_Give extends pxnCommand<RedTermPlugin> {
 		case "plug":
 		case "socket": if (player.hasPermission("redterm.give.outlet")) has_perm = true; break PERMISSION_SWITCH;
 		// arcade - pong
+		case "arcade":
 		case "pong": if (player.hasPermission("redterm.give.arcade")) has_perm = true; break PERMISSION_SWITCH;
 		default:
 			player.sendMessage(CHAT_PREFIX + "Unknown computer component: " + args[1]);
@@ -73,6 +75,7 @@ public class Command_Give extends pxnCommand<RedTermPlugin> {
 		case "cpu":
 		case "processor": GiveToPlayer(player, 880); break GIVE_SWITCH;
 		// crt monitor
+		case "crt":
 		case "mon":
 		case "monitor": GiveToPlayer(player, 1897); break GIVE_SWITCH;
 		// keyboard
@@ -86,6 +89,7 @@ public class Command_Give extends pxnCommand<RedTermPlugin> {
 		case "plug":
 		case "socket": GiveToPlayer(player, 11); break GIVE_SWITCH;
 		// arcade - pong
+		case "arcade":
 		case "pong": GiveToPlayer(player, 1972); break GIVE_SWITCH;
 		default:
 			player.sendMessage(CHAT_PREFIX + "Unknown computer component: " + args[1]);
