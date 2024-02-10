@@ -120,6 +120,7 @@ public class Component_Screen extends Component implements Runnable, PixelSource
 			// pixels
 			final PixelsHolder pixels = new PixelsHolder(MAP_SIZE);
 			this.script.setVariable("pixels", pixels);
+			this.script.addTask("pixels", new RunNextFrame(pixels));
 //TODO: script flags
 		}
 		// map screen
@@ -175,6 +176,7 @@ final boolean perplayer = false;
 		} // end PLAYERS_LOOP
 		this.script.setVariable("players", players);
 		this.script.call("loop");
+		this.script.call("pixels");
 	}
 
 
