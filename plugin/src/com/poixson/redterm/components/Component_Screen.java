@@ -15,7 +15,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.LinkedTransferQueue;
 import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
@@ -28,6 +27,7 @@ import org.bukkit.util.Vector;
 import com.poixson.redterm.RedTermPlugin;
 import com.poixson.redterm.screen.MapScreen;
 import com.poixson.redterm.screen.PixelSource;
+import com.poixson.scripting.PixelsHolder;
 import com.poixson.scripting.xScriptThreadSafe;
 import com.poixson.scripting.loader.xScriptLoader_File;
 import com.poixson.tools.LocalPlayerOut;
@@ -116,9 +116,11 @@ public class Component_Screen extends Component implements Runnable, PixelSource
 			this.script
 				.setVariable("plugin", plugin)
 				.setVariable("out", new LocalPlayerOut(location, DEFAULT_RADIUS))
-				.setVariable("file_self", loader.getScriptFile())
+				.setVariable("file_self", loader.getScriptFile());
+			// pixels
+			final PixelsHolder pixels = new PixelsHolder(MAP_SIZE);
+			this.script.setVariable("pixels", pixels);
 //TODO: script flags
-				.setVariable("pixels", new Color[MAP_SIZE][MAP_SIZE]);
 		}
 		// map screen
 		{
@@ -205,27 +207,12 @@ final boolean perplayer = false;
 
 
 
+	// current frame buffer
 	@Override
 	public Color[][] getPixels(final Player player) {
 		final Object obj = this.script.getVariable("pixels");
-		if (obj == null) return null;
-		@SuppressWarnings("unchecked")
-		final LinkedTransferQueue<LinkedTransferQueue<Integer>> list =
-				(LinkedTransferQueue<LinkedTransferQueue<Integer>>) obj;
-		Color[][] pixels = null;
-		int ix = 0;
-		int iy = 0;
-		for (final LinkedTransferQueue<Integer> lst : list) {
-			if (pixels == null)
-				pixels = new Color[list.size()][lst.size()];
-			for (final Integer entry : lst) {
-				pixels[iy][ix] = new Color(entry.intValue());
-				ix++;
-			}
-			ix = 0;
-			iy++;
-		}
-		return pixels;
+		final PixelsHolder pixels = (PixelsHolder) obj;
+		return (pixels == null ? null : pixels.getFrameArray());
 	}
 
 
