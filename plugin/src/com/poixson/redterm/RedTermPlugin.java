@@ -1,6 +1,6 @@
 package com.poixson.redterm;
 
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.bukkit.ChatColor;
@@ -50,12 +50,13 @@ public class RedTermPlugin extends xJavaPlugin {
 		super.onDisable();
 		this.listener_component.unregister();
 		this.commands.unregister();
-		final Iterator<Component> it = this.components.iterator();
-		while (it.hasNext()) {
-			final Component component = it.next();
+		final LinkedList<Component> removing = new LinkedList<Component>();
+		for (final Component component : this.components) {
 			component.close();
-			it.remove();
+			removing.add(component);
 		}
+		for (final Component component : removing)
+			this.components.remove(component);
 	}
 
 
