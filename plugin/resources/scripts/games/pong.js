@@ -288,7 +288,7 @@ function display_top_scores() {
 	DrawText("Top Scores", 12, 0, null, Font.BOLD, 10, Color.WHITE);
 	for (let i=0; i<7; i++) {
 //TODO
-		DrawText("100 - lorenzop", 2, (i*7)+12, null, Font.PLAIN, 7, Color.WHITE);
+		DrawText("9000 - lorenzop", 2, (i*7)+12, null, Font.PLAIN, 7, Color.WHITE);
 	}
 }
 
