@@ -8,7 +8,7 @@
 
 //#fps=5
 //#include=gui.js
-//#import=cursors
+//#import=players
 //#export=pixels
 
 

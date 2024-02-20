@@ -7,6 +7,7 @@
  */
 
 //#fps=20
+//#import=players
 //#export=pixels
 
 
