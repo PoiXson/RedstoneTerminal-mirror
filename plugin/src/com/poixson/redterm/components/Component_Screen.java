@@ -25,24 +25,24 @@ import org.bukkit.util.RayTraceResult;
 import org.bukkit.util.Vector;
 
 import com.poixson.redterm.RedTermPlugin;
-import com.poixson.redterm.screen.MapScreen;
-import com.poixson.redterm.screen.PixelSource;
-import com.poixson.scripting.PixelsHolder;
 import com.poixson.scripting.xScriptThreadSafe;
 import com.poixson.scripting.loader.xScriptLoader_File;
 import com.poixson.tools.LocalPlayerOut;
 import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;
+import com.poixson.tools.screen.PixelSource_Script;
+import com.poixson.tools.screen.ScreenComposite;
 
 
-public class Component_Screen extends Component implements Runnable, PixelSource {
+public class Component_Screen extends Component {
 	public static boolean DEBUG = true;
 
 	public static final int    DEFAULT_FPS    = 1;
 	public static final String DEFAULT_SCRIPT = "boot.js";
 	public static final int    DEFAULT_RADIUS = 10;
 
-	protected final MapScreen         screen;
+	protected final PixelSource_Script source;
+	protected final ScreenComposite screen;
 	protected final xScriptThreadSafe script;
 
 	protected final int screens_width, screens_height;
@@ -56,9 +56,12 @@ public class Component_Screen extends Component implements Runnable, PixelSource
 		super(plugin, location, facing);
 		this.screens_width  = screens_width;
 		this.screens_height = screens_height;
+		boolean import_players;
+		boolean export_pixels;
+		boolean perplayer;
 		// load script
+		final xScriptLoader_File loader;
 		{
-			final xScriptLoader_File loader;
 			final String path_plugin    = plugin.getDataFolder().getPath();
 			final String path_local     = path_plugin + "/scripts";
 			final String path_res       = "scripts";
@@ -112,16 +115,25 @@ public class Component_Screen extends Component implements Runnable, PixelSource
 			} catch (FileNotFoundException e) {
 				throw new RuntimeException(e);
 			}
+			// flags
+			import_players = loader.hasImport("players");
+			export_pixels  = loader.hasExport("pixels");
+			perplayer      = loader.hasFlag("perplayer");
+			// load script engine
 			this.script = new xScriptThreadSafe(loader, false);
 			this.script
 				.setVariable("plugin", plugin)
 				.setVariable("out", new LocalPlayerOut(location, DEFAULT_RADIUS))
 				.setVariable("file_self", loader.getScriptFile());
 			// pixels
-			final PixelsHolder pixels = new PixelsHolder(MAP_SIZE);
-			this.script.setVariable("pixels", pixels);
-			this.script.addTask("pixels", new RunNextFrame(pixels));
-//TODO: script flags
+			if (export_pixels) {
+				final int width  = 128 * this.screens_width;
+				final int height = 128 * this.screens_height;
+				final Color[][] pixels = new Color[height][];
+				for (int iy=0; iy<height; iy++)
+					pixels[iy] = new Color[width];
+				this.script.setVariable("pixels", pixels);
+			}
 		}
 		// map screen
 		{
@@ -130,13 +142,20 @@ final boolean perplayer = false;
 			// map screen
 			final Location loc_screen = this.location.clone()
 					.add(this.facing.getDirection());
-			this.screen = new MapScreen(plugin, loc_screen, facing, perplayer, this) {
-				@Override
-				public void run() {
-					Component_Screen.this.run();
-					super.run();
-				}
-			};
+			this.source = new PixelSource_Script(this.script, this.location, this.facing);
+			if (import_players) this.source.import_players.set(true);
+			if (export_pixels ) this.source.export_pixels .set(true);
+			this.screen =
+				new ScreenComposite(
+					plugin, this.source,
+					loc_screen, facing,
+					this.screens_width, this.screens_height,
+					perplayer
+				);
+			// fps
+			final Integer fps = NumberUtils.ToInteger(loader.getFlag("fps"));
+			if (fps != null)
+				this.screen.setFPS(fps.intValue());
 		}
 		// start script
 		final Iabcd screen_size = this.screen.getScreenSize();
@@ -184,8 +203,8 @@ final boolean perplayer = false;
 	@Override
 	public void close() {
 		this.plugin.unregister(this);
+		this.screen.stop();
 		this.script.stop();
-		this.screen.close();
 	}
 
 
