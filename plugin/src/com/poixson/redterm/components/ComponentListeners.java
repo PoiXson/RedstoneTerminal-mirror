@@ -75,12 +75,12 @@ public class ComponentListeners extends xListener {
 			}
 			if (!has_perm) {
 				event.setCancelled(true);
-				player.sendMessage(CHAT_PREFIX + "You don't have permission to place a computer component");
+				player.sendMessage(CHAT_PREFIX+"You don't have permission to place a computer component");
 				return;
 			}
 			if (!GameMode.CREATIVE.equals(player.getGameMode())) {
 				event.setCancelled(true);
-				player.sendMessage(CHAT_PREFIX + "You must be in creative mode to place this block.");
+				player.sendMessage(CHAT_PREFIX+"You must be in creative mode to place this block.");
 				return;
 			}
 			// create computer component
@@ -129,7 +129,7 @@ public class ComponentListeners extends xListener {
 					case ITEM_FRAME:
 					case GLOW_ITEM_FRAME: {
 						if (!player.hasPermission("redterm.destroy.monitor")) {
-							player.sendMessage(CHAT_PREFIX + "You don't have permission to break this.");
+							player.sendMessage(CHAT_PREFIX+"You don't have permission to break this.");
 							event.setCancelled(true);
 							break ENTITY_TYPE_SWITCH;
 						}
@@ -144,7 +144,7 @@ public class ComponentListeners extends xListener {
 				// crt monitor
 				if (component instanceof Component_Screen) {
 					if (!player.hasPermission("redterm.destroy.monitor")) {
-						player.sendMessage(CHAT_PREFIX + "You don't have permission to break this.");
+						player.sendMessage(CHAT_PREFIX+"You don't have permission to break this.");
 						event.setCancelled(true);
 						return;
 					}
@@ -214,7 +214,7 @@ public class ComponentListeners extends xListener {
 						// crt monitor
 						if (component instanceof Component_Screen) {
 							if (!player.hasPermission("redterm.interact.monitor")) {
-								player.sendMessage(CHAT_PREFIX + "You don't have permission to use this.");
+								player.sendMessage(CHAT_PREFIX+"You don't have permission to use this.");
 								event.setCancelled(true);
 								return;
 							}

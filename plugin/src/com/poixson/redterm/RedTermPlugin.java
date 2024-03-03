@@ -19,12 +19,12 @@ import com.poixson.tools.xJavaPlugin;
 public class RedTermPlugin extends xJavaPlugin {
 	@Override public int getSpigotPluginID() { return 111236; }
 	@Override public int getBStatsID() {       return 19096;  }
-	public static final String CHAT_PREFIX = ChatColor.AQUA + "[RedTerm] " + ChatColor.WHITE;
+	public static final String CHAT_PREFIX = ChatColor.AQUA+"[RedTerm] "+ChatColor.WHITE;
 
 	protected final CopyOnWriteArraySet<Component> components = new CopyOnWriteArraySet<Component>();
-	protected final ComponentListeners listener_component;
 
 	protected final Commands commands;
+	protected final ComponentListeners listener_component;
 
 
 
