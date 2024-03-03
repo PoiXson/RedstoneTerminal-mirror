@@ -1,6 +1,5 @@
 package com.poixson.redterm.components;
 
-import static com.poixson.redterm.RedTermPlugin.LOG_PREFIX;
 import static com.poixson.tools.screen.PixelSource_Script.DEFAULT_RADIUS;
 import static com.poixson.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.utils.CraftScriptUtils.FixClickPosition;
@@ -68,7 +67,7 @@ public class Component_Screen extends Component {
 				try {
 					if (!dir.isDirectory()) {
 						if (dir.mkdirs())
-							this.log().info(String.format("%sCreated directory: %s", LOG_PREFIX, dir.toString()));
+							this.log().info("Created directory: " + dir.toString());
 					}
 					if (file.createNewFile()) {
 						FileWriter handle = null;
@@ -80,7 +79,7 @@ public class Component_Screen extends Component {
 						} finally {
 							SafeClose(handle);
 						}
-						this.log().info(String.format("%sCreated new file: %s", LOG_PREFIX, filename));
+						this.log().info("Created new file: " + filename);
 					}
 				} catch (IOException e) {
 					throw new RuntimeException(e);

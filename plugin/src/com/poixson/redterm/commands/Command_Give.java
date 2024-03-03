@@ -1,7 +1,6 @@
 package com.poixson.redterm.commands;
 
 import static com.poixson.redterm.RedTermPlugin.CHAT_PREFIX;
-import static com.poixson.redterm.RedTermPlugin.LOG_PREFIX;
 
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -29,7 +28,7 @@ public class Command_Give extends pxnCommand<RedTermPlugin> {
 	public boolean run(final CommandSender sender, final String label, final String[] args) {
 		final Player player = (sender instanceof Player ? (Player)sender : null);
 		if (player == null) {
-			sender.sendMessage(LOG_PREFIX + "Cannot give to console");
+			sender.sendMessage("Cannot give to console");
 			return true;
 		}
 		if (args.length < 2) {
