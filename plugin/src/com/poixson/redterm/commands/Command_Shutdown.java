@@ -8,6 +8,7 @@ import com.poixson.redterm.RedTermPlugin;
 import com.poixson.tools.commands.pxnCommand;
 
 
+// /redterm shutdown
 public class Command_Shutdown extends pxnCommand {
 
 

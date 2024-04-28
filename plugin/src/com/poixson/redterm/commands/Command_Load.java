@@ -8,6 +8,7 @@ import com.poixson.redterm.RedTermPlugin;
 import com.poixson.tools.commands.pxnCommand;
 
 
+// /redterm load
 public class Command_Load extends pxnCommand {
 
 

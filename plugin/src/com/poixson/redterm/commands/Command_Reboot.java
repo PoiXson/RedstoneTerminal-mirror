@@ -8,6 +8,7 @@ import com.poixson.redterm.RedTermPlugin;
 import com.poixson.tools.commands.pxnCommand;
 
 
+// /redterm reboot
 public class Command_Reboot extends pxnCommand {
 
 
