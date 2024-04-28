@@ -43,24 +43,24 @@ public class Command_Give extends pxnCommand {
 		// altair
 		case "altair":
 		case "cpu":
-		case "processor": if (player.hasPermission("redterm.give.altair")) has_perm = true; break PERMISSION_SWITCH;
+		case "processor": if (player.hasPermission("redterm.cmd.give.altair")) has_perm = true; break PERMISSION_SWITCH;
 		// crt monitor
 		case "crt":
 		case "mon":
-		case "monitor": if (player.hasPermission("redterm.give.monitor")) has_perm = true; break PERMISSION_SWITCH;
+		case "monitor": if (player.hasPermission("redterm.cmd.give.monitor")) has_perm = true; break PERMISSION_SWITCH;
 		// keyboard
 		case "key":
-		case "keyboard": if (player.hasPermission("redterm.give.keyboard")) has_perm = true; break PERMISSION_SWITCH;
+		case "keyboard": if (player.hasPermission("redterm.cmd.give.keyboard")) has_perm = true; break PERMISSION_SWITCH;
 		// keypad
 		case "pad":
-		case "keypad": if (player.hasPermission("redterm.give.keypad")) has_perm = true; break PERMISSION_SWITCH;
+		case "keypad": if (player.hasPermission("redterm.cmd.give.keypad")) has_perm = true; break PERMISSION_SWITCH;
 		// outlet
 		case "outlet":
 		case "plug":
-		case "socket": if (player.hasPermission("redterm.give.outlet")) has_perm = true; break PERMISSION_SWITCH;
+		case "socket": if (player.hasPermission("redterm.cmd.give.outlet")) has_perm = true; break PERMISSION_SWITCH;
 		// arcade - pong
 		case "arcade":
-		case "pong": if (player.hasPermission("redterm.give.arcade")) has_perm = true; break PERMISSION_SWITCH;
+		case "pong": if (player.hasPermission("redterm.cmd.give.arcade")) has_perm = true; break PERMISSION_SWITCH;
 		default:
 			player.sendMessage(CHAT_PREFIX + "Unknown computer component: " + args[1]);
 			return true;

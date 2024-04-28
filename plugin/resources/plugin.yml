@@ -14,43 +14,62 @@ permissions:
         default: false
         description: Gives access to all Redstone Terminal commands.
         children:
-            redterm.give.*:     true
-            redterm.place.*:    true
-            redterm.destroy.*:  true
-            redterm.interact.*: true
-            redterm.list.*:     true
-            redterm.load:       true
-            redterm.off:        true
-            redterm.reboot:     true
+            redterm.cmd.give.*:   true
+            redterm.cmd.list.*:   true
+            redterm.cmd.load:     true
+            redterm.cmd.shutdown: true
+            redterm.cmd.reboot:   true
+            redterm.place.*:      true
+            redterm.destroy.*:    true
+            redterm.interact.*:   true
 
     redterm.give.*:
         default: false
         description: Give a computer component to the player.
         children:
-            redterm.give.altair:   true
-            redterm.give.monitor:  true
-            redterm.give.keyboard: true
-            redterm.give.keypad:   true
-            redterm.give.outlet:   true
-            redterm.give.arcade:   true
-    redterm.give.altair:
+            redterm.cmd.give.altair:   true
+            redterm.cmd.give.monitor:  true
+            redterm.cmd.give.keyboard: true
+            redterm.cmd.give.keypad:   true
+            redterm.cmd.give.outlet:   true
+            redterm.cmd.give.arcade:   true
+    redterm.cmd.give.altair:
         default: op
         description: Give an altair to the player.
-    redterm.give.monitor:
+    redterm.cmd.give.monitor:
         default: op
         description: Give a crt monitor to the player.
-    redterm.give.keyboard:
+    redterm.cmd.give.keyboard:
         default: op
         description: Give a keyboard to the player.
-    redterm.give.keypad:
+    redterm.cmd.give.keypad:
         default: op
         description: Give a security keypad to the player.
-    redterm.give.outlet:
+    redterm.cmd.give.outlet:
         default: op
         description: Give a power outlet to the player.
-    redterm.give.arcade:
+    redterm.cmd.give.arcade:
         default: op
         description: Give an arcade to the player.
+
+    redterm.cmd.list.*:
+        default: false
+        description: Use list commands.
+        children:
+            redterm.cmd.list.scripts:   true
+    redterm.cmd.list.scripts:
+        default: op
+        description: List the running scripts.
+
+    redterm.cmd.load:
+        default: op
+        description: Load a script to a computer.
+    redterm.cmd.shutdown:
+        default: op
+        description: Turn off a computer.
+    redterm.cmd.reboot:
+        default: op
+        description: Reboot a computer.
 
     redterm.place.*:
         default: false
@@ -138,22 +157,3 @@ permissions:
     redterm.interact.arcade:
         default: true
         description: Interact with an arcade.
-
-    redterm.list.*:
-        default: false
-        description: Use list commands.
-        children:
-            redterm.list.scripts:   true
-    redterm.list.scripts:
-        default: op
-        description: List the running scripts.
-
-    redterm.load:
-        default: op
-        description: Load a script to a computer.
-    redterm.off:
-        default: op
-        description: Turn off a computer.
-    redterm.reboot:
-        default: op
-        description: Reboot a computer.
