@@ -1,32 +1,39 @@
 package com.poixson.redterm.commands;
 
+import java.util.List;
+
 import org.bukkit.command.CommandSender;
 
 import com.poixson.redterm.RedTermPlugin;
 import com.poixson.tools.commands.pxnCommand;
 
 
-public class Command_Off extends pxnCommand<RedTermPlugin> {
+public class Command_Shutdown extends pxnCommand {
 
 
 
-	public Command_Off(final RedTermPlugin plugin) {
-		super(plugin, true);
+	public Command_Shutdown(final RedTermPlugin plugin) {
+		super(
+			"shutdown",
+			"off"
+		);
 	}
 
 
 
 	@Override
-	public boolean run(final CommandSender sender, final String label, final String[] args) {
+	public boolean onCommand(final CommandSender sender, final String[] args) {
+System.out.println("COMMAND:"); for (final String arg : args) System.out.println("  "+arg);
+		return false;
+	}
+
+
+
+	@Override
+	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
 //TODO
-return false;
-	}
-
-
-
-	@Override
-	public boolean isDefault() {
-		return true;
+System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
+return null;
 	}
 
 

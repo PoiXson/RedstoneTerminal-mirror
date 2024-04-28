@@ -2,6 +2,8 @@ package com.poixson.redterm.commands;
 
 import static com.poixson.redterm.RedTermPlugin.CHAT_PREFIX;
 
+import java.util.List;
+
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -12,12 +14,12 @@ import com.poixson.redterm.RedTermPlugin;
 import com.poixson.tools.commands.pxnCommand;
 
 
-public class Command_Give extends pxnCommand<RedTermPlugin> {
+public class Command_Give extends pxnCommand {
 
 
 
 	public Command_Give(final RedTermPlugin plugin) {
-		super(plugin,
+		super(
 			"give"
 		);
 	}
@@ -25,7 +27,7 @@ public class Command_Give extends pxnCommand<RedTermPlugin> {
 
 
 	@Override
-	public boolean run(final CommandSender sender, final String label, final String[] args) {
+	public boolean onCommand(final CommandSender sender, final String[] args) {
 		final Player player = (sender instanceof Player ? (Player)sender : null);
 		if (player == null) {
 			sender.sendMessage("Cannot give to console");
@@ -105,6 +107,15 @@ public class Command_Give extends pxnCommand<RedTermPlugin> {
 		meta.setCustomModelData(Integer.valueOf(item_id));
 		item.setItemMeta(meta);
 		player.getInventory().addItem(item);
+	}
+
+
+
+	@Override
+	public List<String> onTabComplete(final CommandSender sender, final String[] args) {
+//TODO
+System.out.println("TAB:"); for (final String arg : args) System.out.println("  "+arg);
+return null;
 	}
 
 

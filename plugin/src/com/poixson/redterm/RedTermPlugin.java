@@ -2,6 +2,7 @@ package com.poixson.redterm;
 
 import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -23,7 +24,8 @@ public class RedTermPlugin extends xJavaPlugin {
 
 	protected final CopyOnWriteArraySet<Component> components = new CopyOnWriteArraySet<Component>();
 
-	protected final Commands commands;
+	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
+
 	protected final ComponentListeners listener_component;
 
 
@@ -31,7 +33,6 @@ public class RedTermPlugin extends xJavaPlugin {
 	public RedTermPlugin() {
 		super(RedTermPlugin.class);
 		this.listener_component = new ComponentListeners(this);
-		this.commands = new Commands(this);
 	}
 
 
@@ -39,15 +40,28 @@ public class RedTermPlugin extends xJavaPlugin {
 	@Override
 	public void onEnable() {
 		super.onEnable();
+		// redstone listener
 		this.listener_component.register();
-		this.commands.register();
+		// commands
+		{
+			final Commands commands = new Commands(this);
+			final Commands previous = this.commands.getAndSet(commands);
+			if (previous != null)
+				previous.close();
+		}
 		this.saveConfigs();
 	}
 	@Override
 	public void onDisable() {
 		super.onDisable();
+		// commands
+		{
+			final Commands commands = this.commands.getAndSet(null);
+			if (commands != null)
+				commands.close();
+		}
+		// redstone listener
 		this.listener_component.unregister();
-		this.commands.unregister();
 		final LinkedList<Component> removing = new LinkedList<Component>();
 		for (final Component component : this.components) {
 			component.close();
