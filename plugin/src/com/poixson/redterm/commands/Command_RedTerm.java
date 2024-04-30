@@ -18,11 +18,14 @@ public class Command_RedTerm extends pxnCommandRoot {
 	public Command_RedTerm(final RedTermPlugin plugin) {
 		super(
 			plugin,
+			"redterm", // namespace
 			"Redstone Terminal commands", // desc
 			null, // usage
 			null, // perm
-			"redterm", "redstoneterminal", "redstone-terminal",
-			"computer"
+			new String[] { // labels
+				"redterm", "redstoneterminal", "redstone-terminal",
+				"computer"
+			}
 		);
 		this.addCommand(this.cmd_give     = new Command_Give(    plugin)); // /redterm give
 		this.addCommand(this.cmd_load     = new Command_Load(    plugin)); // /redterm load
