@@ -29,3 +29,6 @@ function loop() {
 		}
 	}
 }
+
+function click() {
+}
