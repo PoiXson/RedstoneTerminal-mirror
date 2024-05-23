@@ -55,27 +55,21 @@ public class ComponentListeners implements xListener {
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onBlockPlace(final BlockPlaceEvent event) {
 		final ItemStack item = event.getItemInHand();
-		MATERIAL_SWITCH:
+		SWITCH_MATERIAL:
 		switch (item.getType()) {
 		case WHITE_STAINED_GLASS: {
 			boolean has_perm = false;
 			final Player player = event.getPlayer();
 			final int model = GetCustomModel(item);
-			PERMISSION_SWITCH:
+			SWITCH_PERMISSION:
 			// check permissions
 			switch (model) {
-			// altair
-			case 880:  if (player.hasPermission("redterm.place.altair"  )) has_perm = true; break PERMISSION_SWITCH;
-			// crt monitor
-			case 1897: if (player.hasPermission("redterm.place.monitor" )) has_perm = true; break PERMISSION_SWITCH;
-			// keyboard
-			case 104:  if (player.hasPermission("redterm.place.keyboard")) has_perm = true; break PERMISSION_SWITCH;
-			// keypad
-			case 1988: if (player.hasPermission("redterm.place.keypad"  )) has_perm = true; break PERMISSION_SWITCH;
-			// outlet
-			case 11:   if (player.hasPermission("redterm.place.outlet"  )) has_perm = true; break PERMISSION_SWITCH;
-			// arcade - pong
-			case 1972: if (player.hasPermission("redterm.place.arcade"  )) has_perm = true; break PERMISSION_SWITCH;
+			case 880:  if (player.hasPermission("redterm.place.altair"  )) has_perm = true; break SWITCH_PERMISSION; // altair
+			case 1897: if (player.hasPermission("redterm.place.monitor" )) has_perm = true; break SWITCH_PERMISSION; // crt monitor
+			case 104:  if (player.hasPermission("redterm.place.keyboard")) has_perm = true; break SWITCH_PERMISSION; // keyboard
+			case 1988: if (player.hasPermission("redterm.place.keypad"  )) has_perm = true; break SWITCH_PERMISSION; // keypad
+			case 11:   if (player.hasPermission("redterm.place.outlet"  )) has_perm = true; break SWITCH_PERMISSION; // outlet
+			case 1972: if (player.hasPermission("redterm.place.arcade"  )) has_perm = true; break SWITCH_PERMISSION; // arcade - pong
 			default: return;
 			}
 			if (!has_perm) {
@@ -92,24 +86,18 @@ public class ComponentListeners implements xListener {
 			final Location loc_player = player.getLocation();
 			final Location loc_block  = event.getBlockPlaced().getLocation();
 			final BlockFace facing = YawToFace(loc_player.getYaw());
-			MODEL_SWITCH:
+			SWITCH_MODEL:
 			switch (model) {
-			// altair
-			case 880:  PlaceComputerEntity(item, loc_block, facing, false, false); break MODEL_SWITCH;
-			// crt monitor
-			case 1897: PlaceComputerEntity(item, loc_block, facing, true,  false); break MODEL_SWITCH;
-			// keyboard
-			case 104:  PlaceComputerEntity(item, loc_block, facing, false, true ); break MODEL_SWITCH;
-			// keypad
-			case 1988: PlaceComputerEntity(item, loc_block, facing, false, true ); break MODEL_SWITCH;
-			// outlet
-			case 11:   PlaceComputerEntity(item, loc_block, facing, false, true ); break MODEL_SWITCH;
-			// arcade - pong
-			case 1972: PlaceComputerEntity(item, loc_block, facing, true,  false); break MODEL_SWITCH;
-			default: break MODEL_SWITCH;
+			case 880:  PlaceComputerEntity(item, loc_block, facing, false, false); break SWITCH_MODEL; // altair
+			case 1897: PlaceComputerEntity(item, loc_block, facing, true,  false); break SWITCH_MODEL; // crt monitor
+			case 104:  PlaceComputerEntity(item, loc_block, facing, false, true ); break SWITCH_MODEL; // keyboard
+			case 1988: PlaceComputerEntity(item, loc_block, facing, false, true ); break SWITCH_MODEL; // keypad
+			case 11:   PlaceComputerEntity(item, loc_block, facing, false, true ); break SWITCH_MODEL; // outlet
+			case 1972: PlaceComputerEntity(item, loc_block, facing, true,  false); break SWITCH_MODEL; // arcade - pong
+			default: break SWITCH_MODEL;
 			}
 		}
-		default: break MATERIAL_SWITCH;
+		default: break SWITCH_MATERIAL;
 		}
 	}
 
@@ -120,31 +108,31 @@ public class ComponentListeners implements xListener {
 	public void onBlockBreak(final BlockBreakEvent event) {
 		final Player player = event.getPlayer();
 		final Block block = event.getBlock();
-		TYPE_SWITCH:
+		SWITCH_TYPE:
 		switch (block.getType()) {
 		case BARRIER: {
 			final Location loc = block.getLocation();
 			final Component component = this.plugin.getComponent(loc);
 			if (component == null) {
-				//ENTITY_LOOP:
+				//LOOP_ENTITY:
 				for (final Entity entity : loc.getWorld().getNearbyEntities(loc, 1.0, 1.0, 1.0)) {
 					final EntityType type = entity.getType();
-					ENTITY_TYPE_SWITCH:
+					SWITCH_ENTITY_TYPE:
 					switch (type) {
 					case ITEM_FRAME:
 					case GLOW_ITEM_FRAME: {
 						if (!player.hasPermission("redterm.destroy.monitor")) {
 							player.sendMessage(CHAT_PREFIX+"You don't have permission to break this.");
 							event.setCancelled(true);
-							break ENTITY_TYPE_SWITCH;
+							break SWITCH_ENTITY_TYPE;
 						}
 						((ItemFrame)entity).setItem(null);
 						entity.remove();
-						break ENTITY_TYPE_SWITCH;
+						break SWITCH_ENTITY_TYPE;
 					}
-					default: break ENTITY_TYPE_SWITCH;
+					default: break SWITCH_ENTITY_TYPE;
 					}
-				} // end ENTITY_LOOP
+				} // end LOOP_ENTITY
 			} else {
 				// crt monitor
 				if (component instanceof Component_Screen) {
@@ -163,9 +151,9 @@ public class ComponentListeners implements xListener {
 //redterm.interact.keypad
 //redterm.interact.outlet
 			}
-			break TYPE_SWITCH;
+			break SWITCH_TYPE;
 		}
-		default: break TYPE_SWITCH;
+		default: break SWITCH_TYPE;
 		}
 	}
 
@@ -178,7 +166,7 @@ public class ComponentListeners implements xListener {
 		if (!Action.RIGHT_CLICK_BLOCK.equals(event.getAction())) return;
 		{
 			final Block block = event.getClickedBlock();
-			TYPE_SWITCH:
+			SWITCH_TYPE:
 			switch (block.getType()) {
 			case BARRIER: {
 				final Location loc = block.getLocation();
@@ -193,9 +181,9 @@ public class ComponentListeners implements xListener {
 						e.printStackTrace();
 					}
 				}
-				break TYPE_SWITCH;
+				break SWITCH_TYPE;
 			} // end barrier
-			default: break TYPE_SWITCH;
+			default: break SWITCH_TYPE;
 			}
 		}
 	}
@@ -206,7 +194,7 @@ public class ComponentListeners implements xListener {
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onHangingBreakByEntity(final HangingBreakByEntityEvent event) {
 		final Entity entity = event.getEntity();
-		ENTITY_SWITCH:
+		SWITCH_ENTITY:
 		switch (entity.getType()) {
 		case ITEM_FRAME:
 		case GLOW_ITEM_FRAME: {
@@ -233,9 +221,9 @@ public class ComponentListeners implements xListener {
 					}
 				}
 			}
-			break ENTITY_SWITCH;
+			break SWITCH_ENTITY;
 		}
-		default: break ENTITY_SWITCH;
+		default: break SWITCH_ENTITY;
 		}
 	}
 
@@ -244,7 +232,7 @@ public class ComponentListeners implements xListener {
 	// click monitor screen
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onPlayerInteractAtEntity(final PlayerInteractAtEntityEvent event) {
-		HAND_SWITCH:
+		SWITCH_HAND:
 		switch (event.getHand()) {
 		case HAND:
 		case OFF_HAND: {
@@ -256,9 +244,9 @@ public class ComponentListeners implements xListener {
 					component.click(event.getPlayer(), event.getClickedPosition());
 				}
 			}
-			break HAND_SWITCH;
+			break SWITCH_HAND;
 		}
-		default: break HAND_SWITCH;
+		default: break SWITCH_HAND;
 		}
 	}
 

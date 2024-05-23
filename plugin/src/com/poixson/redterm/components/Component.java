@@ -101,7 +101,7 @@ public abstract class Component implements Closeable {
 		{
 			final World world = location.getWorld();
 			final Predicate<Entity> filter = GetEntityFilter();
-			ENTITY_LOOP:
+			LOOP_ENTITY:
 			for (final Entity entity : world.getNearbyEntities(location, 0.5, 0.5, 0.5, filter)) {
 				final ItemFrame frame = (ItemFrame) entity;
 				final ItemStack item = frame.getItem();
@@ -114,7 +114,7 @@ public abstract class Component implements Closeable {
 						final BlockFace facing = RotationToFace(frame.getRotation()).getOppositeFace();
 						return new Component_Screen(plugin, location, facing, 1, 1);
 					}
-					default: break ENTITY_LOOP;
+					default: break LOOP_ENTITY;
 					}
 				}
 			}
@@ -125,33 +125,33 @@ public abstract class Component implements Closeable {
 		return new Predicate<Entity>() {
 			@Override
 			public boolean test(final Entity entity) {
-				TYPE_SWITCH:
+				SWITCH_TYPE:
 				switch (entity.getType()) {
 				case ITEM_FRAME:
 				case GLOW_ITEM_FRAME: {
 					final ItemStack item = ((ItemFrame)entity).getItem();
-					MATERIAL_SWITCH:
+					SWITCH_MATERIAL:
 					switch (item.getType()) {
 					case WHITE_STAINED_GLASS: {
 						final ItemMeta meta = item.getItemMeta();
 						if (meta.hasCustomModelData()) {
 							final int model = meta.getCustomModelData();
-							MODEL_SWITCH:
+							SWITCH_MODEL:
 							switch (model) {
 							case 1897: return true; // monitor
 							case 880:  return true; // altair
 							case 1972: return true; // arcade - pong
-							default: break MODEL_SWITCH;
+							default: break SWITCH_MODEL;
 							}
-							break MATERIAL_SWITCH;
+							break SWITCH_MATERIAL;
 						}
 					}
-					default: break MATERIAL_SWITCH;
-					} // end MATERIAL_SWITCH
-					break TYPE_SWITCH;
+					default: break SWITCH_MATERIAL;
+					} // end SWITCH_MATERIAL
+					break SWITCH_TYPE;
 				}
-				default: break TYPE_SWITCH;
-				} // end TYPE_SWITCH
+				default: break SWITCH_TYPE;
+				} // end SWITCH_TYPE
 				return false;
 			}
 		};
@@ -160,17 +160,17 @@ public abstract class Component implements Closeable {
 		return new Predicate<Entity>() {
 			@Override
 			public boolean test(final Entity entity) {
-				TYPE_SWITCH:
+				SWITCH_TYPE:
 				switch (entity.getType()) {
 				case ITEM_FRAME:
 				case GLOW_ITEM_FRAME: {
 					final ItemStack item = ((ItemFrame)entity).getItem();
 					if (Material.FILLED_MAP.equals(item.getType()))
 						return true;
-					break TYPE_SWITCH;
+					break SWITCH_TYPE;
 				}
-				default: break TYPE_SWITCH;
-				} // end TYPE_SWITCH
+				default: break SWITCH_TYPE;
+				} // end SWITCH_TYPE
 				return false;
 			}
 		};

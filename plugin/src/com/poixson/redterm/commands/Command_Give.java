@@ -39,29 +39,29 @@ public class Command_Give extends pxnCommand {
 			return true;
 		}
 		boolean has_perm = false;
-		PERMISSION_SWITCH:
+		SWITCH_PERMISSION:
 		switch (args[1]) {
 		// altair
 		case "altair":
 		case "cpu":
-		case "processor": if (player.hasPermission("redterm.cmd.give.altair")) has_perm = true; break PERMISSION_SWITCH;
+		case "processor": if (player.hasPermission("redterm.cmd.give.altair")) has_perm = true; break SWITCH_PERMISSION;
 		// crt monitor
 		case "crt":
 		case "mon":
-		case "monitor": if (player.hasPermission("redterm.cmd.give.monitor")) has_perm = true; break PERMISSION_SWITCH;
+		case "monitor": if (player.hasPermission("redterm.cmd.give.monitor")) has_perm = true; break SWITCH_PERMISSION;
 		// keyboard
 		case "key":
-		case "keyboard": if (player.hasPermission("redterm.cmd.give.keyboard")) has_perm = true; break PERMISSION_SWITCH;
+		case "keyboard": if (player.hasPermission("redterm.cmd.give.keyboard")) has_perm = true; break SWITCH_PERMISSION;
 		// keypad
 		case "pad":
-		case "keypad": if (player.hasPermission("redterm.cmd.give.keypad")) has_perm = true; break PERMISSION_SWITCH;
+		case "keypad": if (player.hasPermission("redterm.cmd.give.keypad")) has_perm = true; break SWITCH_PERMISSION;
 		// outlet
 		case "outlet":
 		case "plug":
-		case "socket": if (player.hasPermission("redterm.cmd.give.outlet")) has_perm = true; break PERMISSION_SWITCH;
+		case "socket": if (player.hasPermission("redterm.cmd.give.outlet")) has_perm = true; break SWITCH_PERMISSION;
 		// arcade - pong
 		case "arcade":
-		case "pong": if (player.hasPermission("redterm.cmd.give.arcade")) has_perm = true; break PERMISSION_SWITCH;
+		case "pong": if (player.hasPermission("redterm.cmd.give.arcade")) has_perm = true; break SWITCH_PERMISSION;
 		default:
 			player.sendMessage(CHAT_PREFIX + "Unknown computer component: " + args[1]);
 			return true;
@@ -70,29 +70,29 @@ public class Command_Give extends pxnCommand {
 			player.sendMessage(CHAT_PREFIX + "You don't have permission to use this.");
 			return true;
 		}
-		GIVE_SWITCH:
+		SWITCH_GIVE:
 		switch (args[1]) {
 		// altair
 		case "altair":
 		case "cpu":
-		case "processor": GiveToPlayer(player, 880); break GIVE_SWITCH;
+		case "processor": GiveToPlayer(player, 880); break SWITCH_GIVE;
 		// crt monitor
 		case "crt":
 		case "mon":
-		case "monitor": GiveToPlayer(player, 1897); break GIVE_SWITCH;
+		case "monitor": GiveToPlayer(player, 1897); break SWITCH_GIVE;
 		// keyboard
 		case "key":
-		case "keyboard": GiveToPlayer(player, 104); break GIVE_SWITCH;
+		case "keyboard": GiveToPlayer(player, 104); break SWITCH_GIVE;
 		// keypad
 		case "pad":
-		case "keypad": GiveToPlayer(player, 1988); break GIVE_SWITCH;
+		case "keypad": GiveToPlayer(player, 1988); break SWITCH_GIVE;
 		// outlet
 		case "outlet":
 		case "plug":
-		case "socket": GiveToPlayer(player, 11); break GIVE_SWITCH;
+		case "socket": GiveToPlayer(player, 11); break SWITCH_GIVE;
 		// arcade - pong
 		case "arcade":
-		case "pong": GiveToPlayer(player, 1972); break GIVE_SWITCH;
+		case "pong": GiveToPlayer(player, 1972); break SWITCH_GIVE;
 		default:
 			player.sendMessage(CHAT_PREFIX + "Unknown computer component: " + args[1]);
 			return true;
