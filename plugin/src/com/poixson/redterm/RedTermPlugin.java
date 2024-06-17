@@ -1,5 +1,7 @@
 package com.poixson.redterm;
 
+import static com.poixson.utils.LocationUtils.Distance3D;
+
 import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicReference;
@@ -128,17 +130,15 @@ public class RedTermPlugin extends xJavaPlugin {
 		}
 		return null;
 	}
-//TODO: check world?
 	public Component getComponentNear(final Location loc, final int distance) {
-		Location to;
-		double dist;
 		double nearest_dist = Double.MAX_VALUE;
 		Component nearest = null;
 		for (final Component component : this.components) {
-			to = component.getLocation();
+			final Location to = component.getLocation();
 			if (to != null) {
-				dist = to.distance(loc);
-				if (dist <= distance
+				int dist = (int) Distance3D(loc, to);
+				if (dist >= 0
+				&&  dist <= distance
 				&&  dist < nearest_dist) {
 					nearest_dist = dist;
 					nearest      = component;
