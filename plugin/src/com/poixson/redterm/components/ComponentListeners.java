@@ -30,7 +30,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import com.poixson.redterm.RedTermPlugin;
-import com.poixson.tools.events.xListener;
+import com.poixson.tools.xListener;
 
 
 public class ComponentListeners implements xListener {
