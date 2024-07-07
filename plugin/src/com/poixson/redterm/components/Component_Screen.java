@@ -188,7 +188,7 @@ public class Component_Screen extends Component {
 
 
 	public Logger log() {
-		return this.plugin.getLogger();
+		return this.plugin.log();
 	}
 
 

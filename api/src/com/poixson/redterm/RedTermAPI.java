@@ -1,5 +1,7 @@
 package com.poixson.redterm;
 
+import static com.poixson.utils.BukkitUtils.Log;
+
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
@@ -10,7 +12,6 @@ import org.bukkit.plugin.ServicesManager;
 
 
 public class RedTermAPI {
-	protected static final Logger LOG = Logger.getLogger("Minecraft");
 
 	protected static final String NAME  = "RedTermPlugin";
 	protected static final String CLASS = "com.poixson.redterm.RedTermPlugin";
@@ -39,7 +40,7 @@ public class RedTermAPI {
 			return new RedTermAPI(plugin);
 		} catch (ClassNotFoundException e) {
 			if (errcount_PluginNotFound.getAndIncrement() < 10)
-				LOG.severe("Plugin not found: "+NAME);
+				Log().severe("Plugin not found: "+NAME);
 			return null;
 		}
 	}
