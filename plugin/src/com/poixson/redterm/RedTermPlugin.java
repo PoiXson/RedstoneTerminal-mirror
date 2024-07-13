@@ -51,6 +51,9 @@ public class RedTermPlugin extends xJavaPlugin {
 			if (previous != null)
 				previous.close();
 		}
+		// save
+		this.setConfigChanged();
+		this.saveConfigs();
 	}
 	@Override
 	public void onDisable() {
