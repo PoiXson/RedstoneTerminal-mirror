@@ -95,7 +95,7 @@ public class Component_Screen extends Component {
 				);
 			try {
 				loader.getSources();
-			} catch (FileNotFoundException e) {
+			} catch (IOException e) {
 				throw new RuntimeException(e);
 			}
 			// flags
