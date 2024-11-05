@@ -28,7 +28,7 @@ import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.tools.screen.PixelSource_Script;
 import com.poixson.tools.screen.ScreenComposite;
-import com.poixson.utils.NumberUtils;
+import com.poixson.utils.MathUtils;
 
 
 public class Component_Screen extends Component {
@@ -133,7 +133,7 @@ public class Component_Screen extends Component {
 					perplayer
 				);
 			// fps
-			final Integer fps = NumberUtils.ToInteger(loader.getFlag("fps"));
+			final Integer fps = MathUtils.ToInteger(loader.getFlag("fps"));
 			if (fps != null)
 				this.screen.setFPS(fps.intValue());
 		}
