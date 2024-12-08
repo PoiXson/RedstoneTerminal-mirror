@@ -13,6 +13,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import com.poixson.redterm.RedTermPlugin;
 import com.poixson.tools.commands.pxnCommand;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+
 
 // /redterm give
 public class Command_Give extends pxnCommand {
@@ -35,7 +38,7 @@ public class Command_Give extends pxnCommand {
 			return true;
 		}
 		if (args.length < 2) {
-			player.sendMessage(CHAT_PREFIX + "Give what?");
+			player.sendMessage(CHAT_PREFIX.append(Component.text("Give what?").color(NamedTextColor.AQUA)));
 			return true;
 		}
 		boolean has_perm = false;
@@ -63,11 +66,13 @@ public class Command_Give extends pxnCommand {
 		case "arcade":
 		case "pong": if (player.hasPermission("redterm.cmd.give.arcade")) has_perm = true; break SWITCH_PERMISSION;
 		default:
-			player.sendMessage(CHAT_PREFIX + "Unknown computer component: " + args[1]);
+			player.sendMessage(CHAT_PREFIX.append(Component.text(
+				"Unknown computer device: "+args[1]).color(NamedTextColor.AQUA)));
 			return true;
 		}
 		if (!has_perm) {
-			player.sendMessage(CHAT_PREFIX + "You don't have permission to use this.");
+			player.sendMessage(CHAT_PREFIX.append(Component.text(
+				"You don't have permission to use this.").color(NamedTextColor.AQUA)));
 			return true;
 		}
 		SWITCH_GIVE:
@@ -94,7 +99,8 @@ public class Command_Give extends pxnCommand {
 		case "arcade":
 		case "pong": GiveToPlayer(player, 1972); break SWITCH_GIVE;
 		default:
-			player.sendMessage(CHAT_PREFIX + "Unknown computer component: " + args[1]);
+			player.sendMessage(CHAT_PREFIX.append(Component.text(
+				"Unknown computer device: "+args[1]).color(NamedTextColor.AQUA)));
 			return true;
 		}
 		return false;

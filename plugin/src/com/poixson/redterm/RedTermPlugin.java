@@ -6,7 +6,6 @@ import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
@@ -18,11 +17,14 @@ import com.poixson.redterm.devices.Device;
 import com.poixson.redterm.devices.DeviceListeners;
 import com.poixson.tools.xJavaPlugin;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+
 
 public class RedTermPlugin extends xJavaPlugin {
 	@Override public int getSpigotPluginID() { return 111236; }
 	@Override public int getBStatsID() {       return 19096;  }
-	public static final String CHAT_PREFIX = ChatColor.DARK_AQUA+"[RedTerm] "+ChatColor.WHITE;
+	public static final Component CHAT_PREFIX = Component.text("[RedTerm] ").color(NamedTextColor.AQUA);
 
 	protected final CopyOnWriteArraySet<Device> devices = new CopyOnWriteArraySet<Device>();
 
