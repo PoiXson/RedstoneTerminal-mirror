@@ -1,10 +1,10 @@
-package com.poixson.redterm.components;
+package com.poixson.redterm.devices;
 
 import static com.poixson.redterm.RedTermPlugin.CHAT_PREFIX;
-import static com.poixson.redterm.components.Component.ActivateComponent;
-import static com.poixson.redterm.components.Component.GetEntityFilter;
-import static com.poixson.redterm.components.Component.GetScreenFilter;
-import static com.poixson.redterm.components.Component.PlaceComputerEntity;
+import static com.poixson.redterm.devices.Device.ActivateDevice;
+import static com.poixson.redterm.devices.Device.GetEntityFilter;
+import static com.poixson.redterm.devices.Device.GetScreenFilter;
+import static com.poixson.redterm.devices.Device.PlaceComputerEntity;
 import static com.poixson.utils.BlockUtils.GetCustomModel;
 import static com.poixson.utils.LocationUtils.YawToFace;
 
@@ -33,13 +33,13 @@ import com.poixson.redterm.RedTermPlugin;
 import com.poixson.tools.xListener;
 
 
-public class ComponentListeners implements xListener {
+public class DeviceListeners implements xListener {
 
 	protected final RedTermPlugin plugin;
 
 
 
-	public ComponentListeners(final RedTermPlugin plugin) {
+	public DeviceListeners(final RedTermPlugin plugin) {
 		this.plugin = plugin;
 	}
 
@@ -51,7 +51,7 @@ public class ComponentListeners implements xListener {
 
 
 
-	// place component
+	// place device
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onBlockPlace(final BlockPlaceEvent event) {
 		final ItemStack item = event.getItemInHand();
@@ -74,7 +74,7 @@ public class ComponentListeners implements xListener {
 			}
 			if (!has_perm) {
 				event.setCancelled(true);
-				player.sendMessage(CHAT_PREFIX+"You don't have permission to place a computer component");
+				player.sendMessage(CHAT_PREFIX+"You don't have permission to place a computer device");
 				return;
 			}
 			if (!GameMode.CREATIVE.equals(player.getGameMode())) {
@@ -82,7 +82,7 @@ public class ComponentListeners implements xListener {
 				player.sendMessage(CHAT_PREFIX+"You must be in creative mode to place this block.");
 				return;
 			}
-			// create computer component
+			// create computer device
 			final Location loc_player = player.getLocation();
 			final Location loc_block  = event.getBlockPlaced().getLocation();
 			final BlockFace facing = YawToFace(loc_player.getYaw());
@@ -103,7 +103,7 @@ public class ComponentListeners implements xListener {
 
 
 
-	// break component
+	// break device
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onBlockBreak(final BlockBreakEvent event) {
 		final Player player = event.getPlayer();
@@ -112,8 +112,8 @@ public class ComponentListeners implements xListener {
 		switch (block.getType()) {
 		case BARRIER: {
 			final Location loc = block.getLocation();
-			final Component component = this.plugin.getComponent(loc);
-			if (component == null) {
+			final Device device = this.plugin.getDevice(loc);
+			if (device == null) {
 				//LOOP_ENTITY:
 				for (final Entity entity : loc.getWorld().getNearbyEntities(loc, 1.0, 1.0, 1.0)) {
 					final EntityType type = entity.getType();
@@ -135,13 +135,13 @@ public class ComponentListeners implements xListener {
 				} // end LOOP_ENTITY
 			} else {
 				// crt monitor
-				if (component instanceof Component_Screen) {
+				if (device instanceof Device_Screen) {
 					if (!player.hasPermission("redterm.destroy.monitor")) {
 						player.sendMessage(CHAT_PREFIX+"You don't have permission to break this.");
 						event.setCancelled(true);
 						return;
 					}
-					component.close();
+					device.close();
 					for (Entity entity : loc.getWorld().getNearbyEntities(loc, 0.5, 0.5, 0.5, GetEntityFilter()))
 						entity.remove();
 				}
@@ -159,7 +159,7 @@ public class ComponentListeners implements xListener {
 
 
 
-	// activate component
+	// activate device
 	@EventHandler(priority=EventPriority.NORMAL, ignoreCancelled=true)
 	public void onBlockInteract(final PlayerInteractEvent event) {
 		if (!EquipmentSlot.HAND.equals(event.getHand()))         return;
@@ -170,12 +170,12 @@ public class ComponentListeners implements xListener {
 			switch (block.getType()) {
 			case BARRIER: {
 				final Location loc = block.getLocation();
-				final Component existing = this.plugin.getComponent(loc);
+				final Device existing = this.plugin.getDevice(loc);
 				if (existing == null) {
 //TODO: permissions
-					// activate component
+					// activate device
 					try {
-						ActivateComponent(this.plugin, loc);
+						ActivateDevice(this.plugin, loc);
 					} catch (FileNotFoundException e) {
 						event.setCancelled(true);
 						e.printStackTrace();
@@ -202,16 +202,16 @@ public class ComponentListeners implements xListener {
 			if (remover instanceof Player) {
 				final Player player = (Player) remover;
 				if (GetScreenFilter().test(entity)) {
-					final Component component = this.plugin.getComponent(entity);
-					if (component != null) {
+					final Device device = this.plugin.getDevice(entity);
+					if (device != null) {
 						// crt monitor
-						if (component instanceof Component_Screen) {
+						if (device instanceof Device_Screen) {
 							if (!player.hasPermission("redterm.interact.monitor")) {
 								player.sendMessage(CHAT_PREFIX+"You don't have permission to use this.");
 								event.setCancelled(true);
 								return;
 							}
-							component.close();
+							device.close();
 						}
 //TODO
 //redterm.interact.altair
@@ -238,10 +238,10 @@ public class ComponentListeners implements xListener {
 		case OFF_HAND: {
 			final Entity entity = event.getRightClicked();
 			if (GetScreenFilter().test(entity)) {
-				final Component component = this.plugin.getComponent(entity);
-				if (component != null) {
+				final Device device = this.plugin.getDevice(entity);
+				if (device != null) {
 //TODO: permissions
-					component.click(event.getPlayer(), event.getClickedPosition());
+					device.click(event.getPlayer(), event.getClickedPosition());
 				}
 			}
 			break SWITCH_HAND;

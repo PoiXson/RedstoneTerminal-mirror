@@ -1,4 +1,4 @@
-package com.poixson.redterm.components;
+package com.poixson.redterm.devices;
 
 import static com.poixson.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.utils.LocationUtils.FaceToRotation;
@@ -25,7 +25,7 @@ import org.bukkit.util.Vector;
 import com.poixson.redterm.RedTermPlugin;
 
 
-public abstract class Component implements Closeable {
+public abstract class Device implements Closeable {
 
 	protected final RedTermPlugin plugin;
 
@@ -34,7 +34,7 @@ public abstract class Component implements Closeable {
 
 
 
-	public Component(final RedTermPlugin plugin,
+	public Device(final RedTermPlugin plugin,
 			final Location location, final BlockFace facing) {
 		this.plugin    = plugin;
 		this.location  = location;
@@ -88,16 +88,16 @@ public abstract class Component implements Closeable {
 
 
 
-	public static Component ActivateComponent(
+	public static Device ActivateDevice(
 			final RedTermPlugin plugin, final Location location)
 			throws FileNotFoundException {
-		// existing component
+		// existing device
 		{
-			final Component component = plugin.getComponent(location);
-			if (component != null)
-				return null;
+			final Device device = plugin.getDevice(location);
+			if (device != null)
+				return device;
 		}
-		// activate component
+		// activate device
 		{
 			final World world = location.getWorld();
 			final Predicate<Entity> filter = GetEntityFilter();
@@ -112,7 +112,7 @@ public abstract class Component implements Closeable {
 					case 1897:   // monitor
 					case 1972: { // arcade - pong
 						final BlockFace facing = RotationToFace(frame.getRotation()).getOppositeFace();
-						return new Component_Screen(plugin, location, facing, 1, 1);
+						return new Device_Screen(plugin, location, facing, 1, 1);
 					}
 					default: break LOOP_ENTITY;
 					}

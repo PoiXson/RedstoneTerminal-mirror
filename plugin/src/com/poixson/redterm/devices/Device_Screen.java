@@ -1,4 +1,4 @@
-package com.poixson.redterm.components;
+package com.poixson.redterm.devices;
 
 import static com.poixson.tools.screen.PixelSource_Script.DEFAULT_RADIUS;
 import static com.poixson.utils.BukkitUtils.EqualsLocation;
@@ -31,7 +31,7 @@ import com.poixson.tools.screen.ScreenComposite;
 import com.poixson.utils.MathUtils;
 
 
-public class Component_Screen extends Component {
+public class Device_Screen extends Device {
 	public static final String DEFAULT_SCRIPT = "boot.js";
 
 	protected final PixelSource_Script source;
@@ -42,7 +42,7 @@ public class Component_Screen extends Component {
 
 
 
-	public Component_Screen(final RedTermPlugin plugin,
+	public Device_Screen(final RedTermPlugin plugin,
 			final Location location, final BlockFace facing,
 			final int screens_width, final int screens_height)
 			throws FileNotFoundException {

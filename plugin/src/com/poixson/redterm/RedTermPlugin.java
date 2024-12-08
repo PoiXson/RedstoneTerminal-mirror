@@ -14,8 +14,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.util.RayTraceResult;
 
 import com.poixson.redterm.commands.Commands;
-import com.poixson.redterm.components.Component;
-import com.poixson.redterm.components.ComponentListeners;
+import com.poixson.redterm.devices.Device;
+import com.poixson.redterm.devices.DeviceListeners;
 import com.poixson.tools.xJavaPlugin;
 
 
@@ -24,17 +24,17 @@ public class RedTermPlugin extends xJavaPlugin {
 	@Override public int getBStatsID() {       return 19096;  }
 	public static final String CHAT_PREFIX = ChatColor.DARK_AQUA+"[RedTerm] "+ChatColor.WHITE;
 
-	protected final CopyOnWriteArraySet<Component> components = new CopyOnWriteArraySet<Component>();
+	protected final CopyOnWriteArraySet<Device> devices = new CopyOnWriteArraySet<Device>();
 
 	protected final AtomicReference<Commands> commands = new AtomicReference<Commands>(null);
 
-	protected final ComponentListeners listener_component;
+	protected final DeviceListeners listener_devices;
 
 
 
 	public RedTermPlugin() {
 		super(RedTermPlugin.class);
-		this.listener_component = new ComponentListeners(this);
+		this.listener_devices = new DeviceListeners(this);
 	}
 
 
@@ -43,7 +43,7 @@ public class RedTermPlugin extends xJavaPlugin {
 	public void onEnable() {
 		super.onEnable();
 		// redstone listener
-		this.listener_component.register();
+		this.listener_devices.register();
 		// commands
 		{
 			final Commands commands = new Commands(this);
@@ -65,86 +65,86 @@ public class RedTermPlugin extends xJavaPlugin {
 				commands.close();
 		}
 		// redstone listener
-		this.listener_component.unregister();
-		final LinkedList<Component> removing = new LinkedList<Component>();
-		for (final Component component : this.components) {
-			component.close();
-			removing.add(component);
+		this.listener_devices.unregister();
+		final LinkedList<Device> removing = new LinkedList<Device>();
+		for (final Device device : this.devices) {
+			device.close();
+			removing.add(device);
 		}
-		for (final Component component : removing)
-			this.components.remove(component);
+		for (final Device device : removing)
+			this.devices.remove(device);
 	}
 
 
 
 	// -------------------------------------------------------------------------------
-	// components
+	// devices
 
 
 
-	public void register(final Component component) {
-		if (component == null) throw new NullPointerException();
-		this.components.add(component);
-		this.log().info("New component: "+component.getLocation().toString());
+	public void register(final Device device) {
+		if (device == null) throw new NullPointerException();
+		this.devices.add(device);
+		this.log().info("New device: "+device.getLocation().toString());
 	}
-	public boolean unregister(final Component component) {
-		if (component == null) throw new NullPointerException();
-		final boolean result = this.components.remove(component);
-		this.log().info("Removed component: "+component.getLocation().toString());
+	public boolean unregister(final Device device) {
+		if (device == null) throw new NullPointerException();
+		final boolean result = this.devices.remove(device);
+		this.log().info("Removed device: "+device.getLocation().toString());
 		return result;
 	}
 
 
 
-	public Component getComponent(final Location loc) {
+	public Device getDevice(final Location loc) {
 		if (loc == null) throw new NullPointerException();
-		for (final Component component : this.components) {
-			if (component.isLocation(loc))
-				return component;
+		for (final Device device : this.devices) {
+			if (device.isLocation(loc))
+				return device;
 		}
 		return null;
 	}
-	public Component getComponent(final Entity entity) {
+	public Device getDevice(final Entity entity) {
 		if (entity == null) throw new NullPointerException();
 		final Location loc = entity.getLocation();
-		for (final Component component : this.components) {
-			if (component.isLocation(loc))
-				return component;
+		for (final Device device : this.devices) {
+			if (device.isLocation(loc))
+				return device;
 		}
 		return null;
 	}
-	public Component getComponent(final Player player) {
+	public Device getDevice(final Player player) {
 		if (player == null) throw new NullPointerException();
 		// looking at block
 		{
 			final RayTraceResult ray = player.rayTraceBlocks(10.0);
 			final Block block = ray.getHitBlock();
 			if (block != null) {
-				final Component component = this.getComponent(block.getLocation());
-				if (component != null)
-					return component;
+				final Device device = this.getDevice(block.getLocation());
+				if (device != null)
+					return device;
 			}
 		}
 		// near player
 		{
-			final Component component = this.getComponentNear(player.getLocation(), 10);
-			if (component != null)
-				return component;
+			final Device device = this.getDeviceNear(player.getLocation(), 10);
+			if (device != null)
+				return device;
 		}
 		return null;
 	}
-	public Component getComponentNear(final Location loc, final int distance) {
+	public Device getDeviceNear(final Location loc, final int distance) {
 		double nearest_dist = Double.MAX_VALUE;
-		Component nearest = null;
-		for (final Component component : this.components) {
-			final Location to = component.getLocation();
+		Device nearest = null;
+		for (final Device device : this.devices) {
+			final Location to = device.getLocation();
 			if (to != null) {
 				int dist = (int) Distance3D(loc, to);
 				if (dist >= 0
 				&&  dist <= distance
 				&&  dist < nearest_dist) {
 					nearest_dist = dist;
-					nearest      = component;
+					nearest      = device;
 				}
 			}
 		}
