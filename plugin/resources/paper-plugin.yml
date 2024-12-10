@@ -2,11 +2,11 @@ name: ${project.name}
 main: com.poixson.redterm.RedTermPlugin
 version: '${project.version}'
 api-version: '${bukkit-short-version}'
-depend:
+depends:
   - pxnPluginLib
-softdepend:
+soft-depends:
   - Multiverse-Core
-authors: [ lorenzop ]
+authors: lorenzop
 website: ${project.url}
 description: ${project.description}
 permissions:
