@@ -3,7 +3,6 @@ package com.poixson.redterm;
 import static com.poixson.utils.BukkitUtils.Log;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
