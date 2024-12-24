@@ -1,6 +1,6 @@
 package com.poixson.redterm;
 
-import static com.poixson.utils.LocationUtils.Distance3D;
+import static com.poixson.utils.LocationUtils.DistanceVectorial;
 
 import java.util.LinkedList;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -140,7 +140,7 @@ public class RedTermPlugin extends xJavaPlugin {
 		for (final Device device : this.devices) {
 			final Location to = device.getLocation();
 			if (to != null) {
-				int dist = (int) Distance3D(loc, to);
+				int dist = (int) DistanceVectorial(loc, to);
 				if (dist >= 0
 				&&  dist <= distance
 				&&  dist < nearest_dist) {
