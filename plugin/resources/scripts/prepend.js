@@ -1,7 +1,7 @@
 /*
- * Redstone Terminal - Computers in minecraft
- * copyright 2023
- * license AGPL-3
+ * Redstone Terminal ${project.version}
+ * Computers in minecraft
+ * © 2023-2025 | AGPL-3
  * lorenzo at poixson.com
  * https://poixson.com/
  */
