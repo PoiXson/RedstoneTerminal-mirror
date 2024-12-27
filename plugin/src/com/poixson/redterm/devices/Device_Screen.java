@@ -5,6 +5,7 @@ import static com.poixson.utils.BukkitUtils.EqualsLocation;
 import static com.poixson.utils.CraftScriptUtils.FixClickPosition;
 import static com.poixson.utils.CraftScriptUtils.GetLocationScriptFile;
 import static com.poixson.utils.CraftScriptUtils.PlayerToHashMap;
+import static com.poixson.utils.MathUtils.ToInteger;
 import static com.poixson.utils.Utils.SafeClose;
 
 import java.awt.Color;
@@ -28,7 +29,6 @@ import com.poixson.tools.dao.Iab;
 import com.poixson.tools.dao.Iabcd;
 import com.poixson.tools.screen.PixelSource_Script;
 import com.poixson.tools.screen.ScreenComposite;
-import com.poixson.utils.MathUtils;
 
 
 public class Device_Screen extends Device {
@@ -133,7 +133,7 @@ public class Device_Screen extends Device {
 					perplayer
 				);
 			// fps
-			final Integer fps = MathUtils.ToInteger(loader.getFlag("fps"));
+			final Integer fps = ToInteger(loader.getFlag("fps"));
 			if (fps != null)
 				this.screen.setFPS(fps.intValue());
 		}
