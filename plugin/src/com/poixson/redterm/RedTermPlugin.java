@@ -34,7 +34,7 @@ public class RedTermPlugin extends xJavaPlugin {
 
 
 	public RedTermPlugin() {
-		super(RedTermPlugin.class);
+		super();
 		this.listener_devices = new DeviceListeners(this);
 	}
 
