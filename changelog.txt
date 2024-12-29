@@ -1,0 +1,11 @@
+Redstone Terminal - Computers in minecraft
+
+
+2025-- - 0.2.
+===================
+
+
+2024-12-07 - 0.1.23
+===================
+* Spigot 1.21.1 - Java 21
+* last commit with spigot dependencies - switching to paper api
