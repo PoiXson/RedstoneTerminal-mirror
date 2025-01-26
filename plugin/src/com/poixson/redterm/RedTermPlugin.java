@@ -21,7 +21,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
 
-public class RedTermPlugin extends xJavaPlugin {
+public class RedTermPlugin extends xJavaPlugin<RedTermPlugin> {
 	@Override public int getBStatsID() { return 19096; }
 	public static final Component CHAT_PREFIX = Component.text("[RedTerm] ").color(NamedTextColor.AQUA);
 
